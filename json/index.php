@@ -1,11 +1,13 @@
 <?php
-# JSON header here
+header('Content-Type: application/json');
 
 # DB connection here
 
 # Fetch data according to request
+$data = {"test"};
 
-# Create JSON file here
+# Create JSON file
+echo json_encode($data);
 
 # DB close here
 ?>
