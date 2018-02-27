@@ -1,6 +1,6 @@
 <?php
 include_once("src/config.php");
-include_once("src/func/account.php");
+include_once("src/account.php");
 
 // login the user if login form was send and no user is currently logged in
 if (isset($_POST["username"], $_POST["password"]) && !is_loggedin()) {
