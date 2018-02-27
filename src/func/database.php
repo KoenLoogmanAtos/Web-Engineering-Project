@@ -1,6 +1,6 @@
 <?php
 // include config
-include_once("config.php");
+include_once("../config.php");
 
 /**
  * Opens a new mysqli connection with the in the config.php defined login information.
