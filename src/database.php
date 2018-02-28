@@ -7,7 +7,7 @@ include_once("config.php");
  * 
  * @return mysqli mysqli object with the connection to the database.
  */
-function new_msqli() {
+function new_mysqli() {
     // get config data
     $config = $GLOBALS["_CONFIG"];
 
