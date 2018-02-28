@@ -6,7 +6,31 @@ body {
 }
 
 body {
-    background: #eee;
+    background: #CCC;
     color: #222;
     overflow-y: scroll;
+}
+
+.wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#header {
+    background: #222;
+    color: #eee;
+    text-align: right;
+    overflow: auto;
+}
+
+#content {
+    background: #eee;
+    min-height: 80%;
+    padding: 1.5rem 0;
+    overflow: auto;
+}
+
+#footer {
+    padding-top: 1.5rem;
+    overflow: auto;
 }
