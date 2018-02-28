@@ -1,5 +1,6 @@
 <?php
 include_once("src/config.php");
+include_once("src/database.php");
 include_once("src/account.php");
 
 // login the user if login form was send and no user is currently logged in
@@ -8,7 +9,7 @@ if (isset($_POST["username"], $_POST["password"]) && !is_loggedin()) {
 }
 
 // logout if the action was send
-if (isset($_POST["action"]) && $_POST["action"] == "logout") {
+if (isset($_POST["action"]) && strtolower($_POST["action"]) == "logout") {
     logout();
 }
 ?>
@@ -24,30 +25,39 @@ if (isset($_POST["action"]) && $_POST["action"] == "logout") {
         <script src="js/main.js"></script>
     </head>
     <body>
-        <?php
-            if (!is_loggedin()) {
-        ?>
-        <form action="" method="post">
-            <input type="text" name="username"><br>
-            <input type="password" name="password"><br>
-            <input type="submit" value="Login">
-        </form>
-        <?php
-            } else {
-        ?>
-        <form action="" method="post">
-            <input type="hidden" name="action" value="logout">
-            <input type="submit" value="Logout">
-        </form>
-        <?php
-                echo "Hello ".username()."!";
-            }
+        <div id="header">
+            <div class="wrapper">
+                <?php
 
-            if (username_taken("Admin")) {
-                echo "Yes";
-            } else {
-                echo "No";
-            }
-        ?>
+                if (is_loggedin()) {
+                    ?><form id="logout" action="" method="post" ajax="true">
+                        <input type="hidden" value="Logout" name="action"/>
+                        <input type="submit" value="Logout"/>
+                    </form><?php
+                } else {
+                    ?><form id="login" action="" method="post" ajax="true">
+                        <input type="text" placeholder="username" name="username"/>
+                        <input type="password" placeholder="password" name="password"/>
+                        <input type="submit" value="Login"/>
+                    </form><?php
+                }
+                
+                ?>
+            </div>
+        </div>
+        <div id="content">
+            <div class="wrapper">
+                <?php
+                    if (is_loggedin()) {
+                        echo "Hello ".username()."!";
+                    }
+                ?>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="wrapper">
+                Footer
+            </div>
+        </div>
     </body>
 </html>
