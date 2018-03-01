@@ -107,7 +107,7 @@ function username_taken($username) {
 function new_user(string $username, string $password) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $msqli = new_msqli();
+    $msqli = new_mysqli();
 
     // Check connection
     if ($msqli->connect_errno) {
@@ -116,8 +116,7 @@ function new_user(string $username, string $password) {
 
     // prepare statement to check for the username
     $stmt = $msqli->prepare("INSERT INTO `user`(`username`, `password`) VALUES (?, ?);");
-    $stmt->bind_param("s", $username);
-    $stmt->bind_param("s", $hashed_password);
+    $stmt->bind_param("ss", $username, $hashed_password);
     
     $success = $stmt->execute();
     
