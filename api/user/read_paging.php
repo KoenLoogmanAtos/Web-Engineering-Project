@@ -25,7 +25,6 @@ $num = $stmt->rowCount();
  
 // check if more than 0 record found
 if($num > 0){
-    
     // users array
     $users_arr=array();
     $users_arr["records"]=array();
@@ -51,8 +50,7 @@ if($num > 0){
     // include paging
     $total_rows = $user->count();
     $page_url = "{$home_url}user/read_paging.php?";
-    $paging = $utilities->get_paging($page, $total_rows, $records_per_page, $page_url);
-    $users_arr["paging"] = $paging;
+    $users_arr["paging"] = $utilities->get_paging($page, $total_rows, $records_per_page, $page_url);
     
     echo json_encode($users_arr);
 } else {
