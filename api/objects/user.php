@@ -32,6 +32,17 @@ class User {
         $this->created = htmlspecialchars(strip_tags($this->created));
     }
 
+    // used for paging products
+    public function count() {
+        $query = "SELECT COUNT(*) as total_rows FROM {$this->table_name};";
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $row['total_rows'];
+    }
+
     /**
      * Reads users from the MySQL Database.
      * 
@@ -39,8 +50,9 @@ class User {
      */
     public function read() {
         // select all query
-        $query = "SELECT `id`, `username`, `user_role_id`, `created`
-        FROM ".$this->table_name;
+        $query = "SELECT
+                    `id`, `username`, `user_role_id`, `created`
+                FROM {$this->table_name};";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -53,10 +65,12 @@ class User {
 
     function read_one() {
         // query to read single record
-        $query = "SELECT `id`, `user_role_id`, `username`, `created`
-        FROM ". $this->table_name."
-        WHERE `id` = :id
-        LIMIT 0,1";
+        $query = "SELECT
+                    `id`, `user_role_id`, `username`, `created`
+                FROM {$this->table_name}
+                WHERE
+                    `id` = :id
+                LIMIT 0, 1;";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -77,15 +91,41 @@ class User {
         $this->created = $row['created'];
     }
 
+    public function read_paging($from_record_num, $records_per_page){
+ 
+        // select query
+        $query = "SELECT
+                    `id`, `user_role_id`, `username`, `created`
+                FROM
+                    {$this->table_name}
+                ORDER BY
+                    `created` DESC
+                LIMIT :from, :count;";
+     
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+     
+        // bind variable values
+        $stmt->bindParam("from", $from_record_num, PDO::PARAM_INT);
+        $stmt->bindParam("count", $records_per_page, PDO::PARAM_INT);
+     
+        // execute query
+        $stmt->execute();
+     
+        // return values from database
+        return $stmt;
+    }
+
     /**
      * Creates a new database entry with the current set values.
      * Values will be stripped and sanitized.
      */
     function create() {
         // query to insert record
-        $query = "INSERT INTO ".$this->table_name."
-                (`user_role_id`, `username`, `password`, `created`)
-                VALUES (:user_role_id, :username, :password, :created)";
+        $query = "INSERT INTO {$this->table_name}
+                    (`user_role_id`, `username`, `password`, `created`)
+                VALUES
+                    (:user_role_id, :username, :password, :created);";
     
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -108,14 +148,14 @@ class User {
     
     function update(){
         // update query
-        $query = "UPDATE ".$this->table_name."
+        $query = "UPDATE {$this->table_name}
                 SET
                     id = :id,
                     user_role_id = :user_role_id
                     username = :username,
                     password = :password
                 WHERE
-                    id = :id";
+                    id = :id;";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -135,7 +175,10 @@ class User {
 
     function delete(){
         // delete query
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $query = "DELETE
+                FROM {$this->table_name}
+                WHERE
+                    id = :id;";
      
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -148,6 +191,34 @@ class User {
      
         // execute query
         return $stmt->execute();
+    }
+
+    // search products
+    function search($keywords){
+        // select all query
+        $query = "SELECT
+                    `id`, `username`, `user_role_id`, `created`
+                FROM
+                    {$this->table_name}
+                WHERE
+                    `username` LIKE :keywords
+                ORDER BY
+                    `created` DESC;";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // sanitize
+        $this->sanitize();
+        $keywords = "%{$keywords}%";
+    
+        // bind
+        $stmt->bindParam("keywords", $keywords);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
     }
 }
 ?>
