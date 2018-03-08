@@ -20,7 +20,7 @@ $db = $database->getConnection();
 $user = new User($db);
 
 // query users
-$stmt = $user->readPaging($from_record_num, $records_per_page);
+$stmt = $user->read_paging($from_record_num, $records_per_page);
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
@@ -51,7 +51,7 @@ if($num > 0){
     // include paging
     $total_rows = $user->count();
     $page_url = "{$home_url}user/read_paging.php?";
-    $paging = $utilities->getPaging($page, $total_rows, $records_per_page, $page_url);
+    $paging = $utilities->get_paging($page, $total_rows, $records_per_page, $page_url);
     $users_arr["paging"] = $paging;
     
     echo json_encode($users_arr);
