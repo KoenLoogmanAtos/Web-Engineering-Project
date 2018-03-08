@@ -34,10 +34,10 @@ if($num > 0){
         // make $row['name'] to $name
         extract($row);
  
-        $user_item=array(
+        $user_item = array(
             "id" => (int) $id,
-            "username" => $username,
             "user_role_id" => (int) $user_role_id,
+            "username" => $username,
             "created" => $created
         );
         

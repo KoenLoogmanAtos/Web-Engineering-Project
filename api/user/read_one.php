@@ -25,8 +25,8 @@ $user->read_one();
 
 // create array
 $user_arr = array(
-    "id" =>  $user->id,
-    "user_role_id" => $user->user_role_id,
+    "id" => (int) $user->id,
+    "user_role_id" => (int) $user->user_role_id,
     "username" => $user->username,
     "created" => $user->created
 );
