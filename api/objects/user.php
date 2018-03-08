@@ -132,5 +132,22 @@ class User {
         // execute the query
         return $stmt->execute();
     }
+
+    function delete(){
+        // delete query
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+     
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+     
+        // sanitize
+        $this->sanitize();
+     
+        // bind id of record to delete
+        $stmt->bindParam("id", $this->id);
+     
+        // execute query
+        return $stmt->execute();
+    }
 }
 ?>
