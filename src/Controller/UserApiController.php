@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\JmsController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Controller\JmsController;
 use App\Entity\User;
+use App\Form\UserType;
 
 /**
  * @Route("/api/users")
@@ -54,11 +52,7 @@ class UserApiController extends JmsController
         $data = array("request" => array("id" => $id) + $request->request->get("form"));
 
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $form = $this->createFormBuilder($user)
-            ->add('username', TextType::class)
-            ->add('password', PasswordType::class)
-            ->add('create', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(UserTask::class, $user);
 
         $form->handleRequest($request);
 
@@ -79,11 +73,7 @@ class UserApiController extends JmsController
         $data = array("request" => $request->request->get("form"));
 
         $user = new User();
-        $form = $this->createFormBuilder($user)
-            ->add('username', TextType::class)
-            ->add('password', PasswordType::class)
-            ->add('create', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(UserTask::class, $user);
 
         $form->handleRequest($request);
 
