@@ -7,6 +7,9 @@ use App\Controller\JmsController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Guest;
 
+/**
+ * @Route("api/guests")
+ */
 class ApiGuestController extends JmsController
 {
     /**
