@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Controller\JmsController;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Guest;
 
 class ApiGuestController extends JmsController
