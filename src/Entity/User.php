@@ -74,11 +74,11 @@ class User
     }
 
     /**
-     * Returns an empty string for the form builder
+     * Get the value of password
      */ 
     public function getPassword()
     {
-        return "";
+        return ;
     }
 
     /**
