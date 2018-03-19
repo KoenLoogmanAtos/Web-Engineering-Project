@@ -17,8 +17,9 @@ class ApiRoomController extends JmsController
      */
     public function index(Request $request)
     {
-        $data = array("request" => $request->query);
+        $data = array();
 
+        $rooms = array();
         $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
         $data["reports"] = $rooms;
 
@@ -30,22 +31,10 @@ class ApiRoomController extends JmsController
      */
     public function show($id)
     {
-        $data = array("request" => array("id" => $id));
+        $data = array();
 
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
         $data["reports"] = array($room);
-
-        return $this->jms_json($data);
-    }
-
-    /**
-     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="api_room_edit")
-     */
-    public function edit($id, Request $request)
-    {
-        $data = array("request" => array("id" => $id) + $request->request->get("form"));
-
-        //TODO form and database interaction
 
         return $this->jms_json($data);
     }
@@ -55,9 +44,59 @@ class ApiRoomController extends JmsController
      */
     public function create(Request $request)
     {
-        $data = array("request" => $request->request->get("form"));
+        $data = array();
 
-        //TODO form and database interaction
+        $room = new room();
+        $form = $this->createForm(roomType::class, $room);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $room = $form->getData();
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+                $data["message"] = "Successfully created";
+            } catch(\Exception $e) {
+                $data["message"] = "Failed to create";
+
+                //TODO cleaner error handling
+                $data["error"] = $e->getMessage();
+            }
+        }
+
+        return $this->jms_json($data);
+    }
+
+    /**
+     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="api_room_edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $data = array();
+
+        $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
+        $form = $this->createForm(roomType::class, $room);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $room = $form->getData();
+            
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->merge($room);
+                $em->flush();
+                $data["message"] = "Update was successful";
+            } catch(\Exception $e) {
+                $data["message"] = "Update failed";
+
+                //TODO cleaner error handling
+                $data["error"] = $e->getMessage();
+            }
+        }
 
         return $this->jms_json($data);
     }
@@ -67,10 +106,21 @@ class ApiRoomController extends JmsController
      */
     public function delete($id)
     {
-        $data = array("request" => array("id" => $id));
+        $data = array();
 
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
-        //TODO delete entity
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($room);
+            $em->flush();
+            $data["message"] = "Successfully deleted";
+        } catch(\Exception $e) {
+            $data["message"] = "Failed to delete";
+
+            //TODO cleaner error handling
+            $data["error"] = $e->getMessage();
+        }
 
         return $this->jms_json($data);
     }

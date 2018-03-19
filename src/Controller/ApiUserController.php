@@ -18,7 +18,7 @@ class ApiUserController extends JmsController
      */
     public function index(Request $request)
     {
-        $data = array("request" => $request->query);
+        $data = array();
 
         $users = array();
         if ($request->query->has("s")) {
@@ -45,32 +45,11 @@ class ApiUserController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="api_user_edit")
-     */
-    public function edit($id, Request $request)
-    {
-        $data = array("request" => array("id" => $id) + $request->request->get("form"));
-
-        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-
-            //TODO flush data to database and do some error handling
-        }
-
-        return $this->jms_json($data);
-    }
-
-    /**
      * @Route(methods={"POST"}, name="api_user_create")
      */
     public function create(Request $request)
     {
-        $data = array("request" => $request->request->get("form"));
+        $data = array();
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -80,9 +59,48 @@ class ApiUserController extends JmsController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($user);
-            $manager->flush();
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $data["message"] = "Successfully created";
+            } catch(\Exception $e) {
+                $data["message"] = "Failed to create";
+
+                //TODO cleaner error handling
+                $data["error"] = $e->getMessage();
+            }
+        }
+
+        return $this->jms_json($data);
+    }
+
+    /**
+     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="api_user_edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $data = array();
+
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->merge($user);
+                $em->flush();
+                $data["message"] = "Update was successful";
+            } catch(\Exception $e) {
+                $data["message"] = "Update failed";
+
+                //TODO cleaner error handling
+                $data["error"] = $e->getMessage();
+            }
         }
 
         return $this->jms_json($data);
@@ -93,10 +111,21 @@ class ApiUserController extends JmsController
      */
     public function delete($id)
     {
-        $data = array("request" => array("id" => $id));
+        $data = array();
 
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        //TODO delete entity
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($user);
+            $em->flush();
+            $data["message"] = "Successfully deleted";
+        } catch(\Exception $e) {
+            $data["message"] = "Failed to delete";
+
+            //TODO cleaner error handling
+            $data["error"] = $e->getMessage();
+        }
 
         return $this->jms_json($data);
     }
