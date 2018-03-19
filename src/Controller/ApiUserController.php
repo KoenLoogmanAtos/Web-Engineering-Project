@@ -18,7 +18,7 @@ class ApiUserController extends JmsController
      */
     public function index(Request $request)
     {
-        $data = array("request" => $request->query);
+        $data = array();
 
         $users = array();
         if ($request->query->has("s")) {
@@ -49,7 +49,7 @@ class ApiUserController extends JmsController
      */
     public function create(Request $request)
     {
-        $data = array("request" => $request->request->get("form"));
+        $data = array();
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -80,7 +80,7 @@ class ApiUserController extends JmsController
      */
     public function edit($id, Request $request)
     {
-        $data = array("request" => array("id" => $id) + $request->request->get("form"));
+        $data = array();
 
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
         $form = $this->createForm(UserType::class, $user);
@@ -111,7 +111,7 @@ class ApiUserController extends JmsController
      */
     public function delete($id)
     {
-        $data = array("request" => array("id" => $id));
+        $data = array();
 
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
         

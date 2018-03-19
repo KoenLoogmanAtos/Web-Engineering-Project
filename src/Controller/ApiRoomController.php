@@ -17,7 +17,7 @@ class ApiRoomController extends JmsController
      */
     public function index(Request $request)
     {
-        $data = array("request" => $request->query);
+        $data = array();
 
         $rooms = array();
         $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
@@ -31,7 +31,7 @@ class ApiRoomController extends JmsController
      */
     public function show($id)
     {
-        $data = array("request" => array("id" => $id));
+        $data = array();
 
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
         $data["reports"] = array($room);
@@ -44,7 +44,7 @@ class ApiRoomController extends JmsController
      */
     public function create(Request $request)
     {
-        $data = array("request" => $request->request->get("form"));
+        $data = array();
 
         $room = new room();
         $form = $this->createForm(roomType::class, $room);
@@ -75,7 +75,7 @@ class ApiRoomController extends JmsController
      */
     public function edit($id, Request $request)
     {
-        $data = array("request" => array("id" => $id) + $request->request->get("form"));
+        $data = array();
 
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
         $form = $this->createForm(roomType::class, $room);
@@ -106,7 +106,7 @@ class ApiRoomController extends JmsController
      */
     public function delete($id)
     {
-        $data = array("request" => array("id" => $id));
+        $data = array();
 
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
         
