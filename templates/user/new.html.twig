@@ -2,8 +2,13 @@
 
 {% block title %}Hello!{% endblock %}
 
-{% block body %}
+{% block content %}
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.password) }}
+        <div class="form-group text-right">
+            {{ form_widget(form.submit, {'attr': {'value': 'Create'}}) }}
+        </div>
     {{ form_end(form) }}
 {% endblock %}
