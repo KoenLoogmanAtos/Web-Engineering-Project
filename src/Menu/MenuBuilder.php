@@ -23,8 +23,14 @@ class MenuBuilder
         $menu = $this->factory->createItem('root');
 
         $menu->addChild('Home', array('route' => 'index'));
-        // ... add more children
 
+        $menu->setChildrenAttribute('class', 'navbar-nav');
+        // menu items
+        foreach ($menu as $child) {
+            $child->setLinkAttribute('class', 'nav-link')
+                ->setAttribute('class', 'nav-item');
+        }
+        
         return $menu;
     }
 }
