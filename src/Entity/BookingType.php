@@ -16,7 +16,9 @@ class BookingType
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    private $type;
+    private $can_expire;
+    private $dummy;
 
     /**
      * @var \DateTime $created

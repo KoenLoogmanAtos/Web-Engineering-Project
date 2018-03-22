@@ -16,7 +16,8 @@ class RoomType
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    private $type;
+    private $capacity;
     /**
      * @ORM\Column(type="string", length=64, unique=true)
      */

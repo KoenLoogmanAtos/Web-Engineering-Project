@@ -16,7 +16,11 @@ class Guest
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    private $firstname;
+    private $lastname;
+    private $email;
+    private $phone;
+    
     /**
      * @var \DateTime $created
      *
