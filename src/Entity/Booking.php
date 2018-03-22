@@ -24,7 +24,15 @@ class Booking
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
+
+    private $guest_id;
+    private $booking_type_id;
+    private $arrival;
+    private $depature;
+    private $nights;
+    private $expiration_date;
     private $created;
+    
 
     /**
      * @var \DateTime $updated
