@@ -12,6 +12,7 @@ class BookingTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+        ->add('booking_type', TextType::class)
         ;
     }
 
