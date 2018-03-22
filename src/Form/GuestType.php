@@ -12,6 +12,8 @@ class GuestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+        ->add('Guest', TextType::class)
+     
         ;
     }
 
