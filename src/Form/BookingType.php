@@ -6,13 +6,21 @@ use App\Entity\Booking;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BookingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('booking', TextType::class)
+        ->add('guestId', NumberType::class)
+        ->add('bookingTypeId', NumberType::class)
+        ->add('arrival', DateType::class)
+        ->add('depature', DateType::class)
+        ->add('expirationDate', DateType::class)
+        ->add('send', SubmitType::class)
         ;
     }
 
