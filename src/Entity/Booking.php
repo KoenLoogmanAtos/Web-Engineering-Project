@@ -42,11 +42,6 @@ class Booking
     private $depature;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $nights;
-
-    /**
      * @var \DateTime $expiration_date
      *
      * @ORM\Column(type="datetime")
@@ -171,18 +166,6 @@ class Booking
     public function getNights()
     {
         return $this->nights;
-    }
-
-    /**
-     * Set the value of nights
-     *
-     * @return  self
-     */ 
-    public function setNights($nights)
-    {
-        $this->nights = $nights;
-
-        return $this;
     }
 
     /**

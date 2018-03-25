@@ -33,7 +33,7 @@ class Guest
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=324)
+     * @ORM\Column(type="string", length=32)
      */
     private $phone;
 
