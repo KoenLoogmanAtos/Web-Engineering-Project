@@ -28,11 +28,6 @@ class RoomType
     private $capacity;
     
     /**
-     * @ORM\Column(type="string", length=64)
-     */
-    private $roomType;
-    
-    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -93,26 +88,6 @@ class RoomType
     public function setCapacity($capacity)
     {
         $this->capacity = $capacity;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of roomType
-     */ 
-    public function getRoomType()
-    {
-        return $this->roomType;
-    }
-
-    /**
-     * Set the value of roomType
-     *
-     * @return  self
-     */ 
-    public function setRoomType($roomType)
-    {
-        $this->roomType = $roomType;
 
         return $this;
     }

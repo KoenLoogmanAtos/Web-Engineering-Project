@@ -18,22 +18,22 @@ class Guest
     private $id;
 
     /**
-     * ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64)
      */
     private $firstname;
 
     /**
-     * ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64)
      */
     private $lastname;
 
     /**
-     * ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=128)
      */
     private $email;
 
     /**
-     * ORM\Column(type="string", length=324)
+     * @ORM\Column(type="string", length=324)
      */
     private $phone;
 
@@ -62,7 +62,7 @@ class Guest
     }
 
     /**
-     * Get oRM\Column(type="string", length=64)
+     * Get the value of firstname
      */ 
     public function getFirstname()
     {
@@ -70,7 +70,7 @@ class Guest
     }
 
     /**
-     * Set oRM\Column(type="string", length=64)
+     * Set the value of firstname
      *
      * @return  self
      */ 
@@ -82,7 +82,7 @@ class Guest
     }
 
     /**
-     * Get oRM\Column(type="string", length=64)
+     * Get the value of lastname
      */ 
     public function getLastname()
     {
@@ -90,7 +90,7 @@ class Guest
     }
 
     /**
-     * Set oRM\Column(type="string", length=64)
+     * Set the value of lastname
      *
      * @return  self
      */ 
@@ -102,7 +102,7 @@ class Guest
     }
 
     /**
-     * Get oRM\Column(type="string", length=128)
+     * Get the value of email
      */ 
     public function getEmail()
     {
@@ -110,7 +110,7 @@ class Guest
     }
 
     /**
-     * Set oRM\Column(type="string", length=128)
+     * Set the value of email
      *
      * @return  self
      */ 
@@ -122,7 +122,7 @@ class Guest
     }
 
     /**
-     * Get oRM\Column(type="string", length=324)
+     * Get the value of phone
      */ 
     public function getPhone()
     {
@@ -130,7 +130,7 @@ class Guest
     }
 
     /**
-     * Set oRM\Column(type="string", length=324)
+     * Set the value of phone
      *
      * @return  self
      */ 
@@ -152,6 +152,20 @@ class Guest
     }
 
     /**
+     * Set $created
+     *
+     * @param  \DateTime  $created  $created
+     *
+     * @return  self
+     */ 
+    public function setCreated(\DateTime $created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
      * Get $updated
      *
      * @return  \DateTime
@@ -159,5 +173,19 @@ class Guest
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set $updated
+     *
+     * @param  \DateTime  $updated  $updated
+     *
+     * @return  self
+     */ 
+    public function setUpdated(\DateTime $updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
     }
 }

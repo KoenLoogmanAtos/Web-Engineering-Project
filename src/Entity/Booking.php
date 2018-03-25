@@ -20,12 +20,12 @@ class Booking
      /**
      * @ORM\Column(type="integer")
      */
-    private $guest_id;
+    private $guestId;
 
      /**
      * @ORM\Column(type="integer")
      */
-    private $booking_type_id;
+    private $bookingTypeId;
 
      /**
      * @var \DateTime $arrival
@@ -51,7 +51,7 @@ class Booking
      *
      * @ORM\Column(type="datetime")
      */
-    private $expiration_date; 
+    private $expirationDate; 
 
      /**
      * @var \DateTime $created
@@ -68,7 +68,6 @@ class Booking
      * @ORM\Column(type="datetime")
      */
     private $updated;
- 
 
     /**
      * Get the value of id
@@ -78,51 +77,45 @@ class Booking
         return $this->id;
     }
 
-
-    
     /**
-     * Get the value of guest_id
+     * Get the value of guestId
      */ 
-    public function getGuest_id()
+    public function getGuestId()
     {
-        return $this->guest_id;
+        return $this->guestId;
     }
 
     /**
-     * Set the value of guest_id
+     * Set the value of guestId
      *
      * @return  self
      */ 
-    public function setGuest_id($guest_id)
+    public function setGuestId($guestId)
     {
-        $this->guest_id = $guest_id;
+        $this->guestId = $guestId;
 
         return $this;
     }
 
-
-
     /**
-     * Get the value of booking_type_id
+     * Get the value of bookingTypeId
      */ 
-    public function getBooking_type_id()
+    public function getBookingTypeId()
     {
-        return $this->booking_type_id;
+        return $this->bookingTypeId;
     }
 
     /**
-     * Set the value of booking_type_id
+     * Set the value of bookingTypeId
      *
      * @return  self
      */ 
-    public function setBooking_type_id($booking_type_id)
+    public function setBookingTypeId($bookingTypeId)
     {
-        $this->booking_type_id = $booking_type_id;
+        $this->bookingTypeId = $bookingTypeId;
 
         return $this;
     }
-
-
 
     /**
      * Get $arrival
@@ -133,7 +126,7 @@ class Booking
     {
         return $this->arrival;
     }
-    
+
     /**
      * Set $arrival
      *
@@ -147,8 +140,6 @@ class Booking
 
         return $this;
     }
-
-
 
     /**
      * Get $depature
@@ -173,8 +164,6 @@ class Booking
 
         return $this;
     }
-    
-
 
     /**
      * Get the value of nights
@@ -196,29 +185,26 @@ class Booking
         return $this;
     }
 
-    
-    
-
     /**
      * Get $expiration_date
      *
      * @return  \DateTime
      */ 
-    public function getExpiration_date()
+    public function getExpirationDate()
     {
-        return $this->expiration_date;
+        return $this->expirationDate;
     }
 
     /**
      * Set $expiration_date
      *
-     * @param  \DateTime  $expiration_date  $expiration_date
+     * @param  \DateTime  $expirationDate  $expiration_date
      *
      * @return  self
      */ 
-    public function setExpiration_date(\DateTime $expiration_date)
+    public function setExpirationDate(\DateTime $expirationDate)
     {
-        $this->expiration_date = $expiration_date;
+        $this->expirationDate = $expirationDate;
 
         return $this;
     }

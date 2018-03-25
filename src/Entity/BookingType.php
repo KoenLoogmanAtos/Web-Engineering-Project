@@ -18,17 +18,17 @@ class BookingType
     private $id;
 
     /**
-     * ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", length=32)
      */
     private $type;
 
     /**
-     * ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
-    private $can_expire;
+    private $canExpire;
 
     /**
-     * ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $dummy;
 
@@ -47,7 +47,6 @@ class BookingType
      * @ORM\Column(type="datetime")
      */
     private $updated;
-
     
     /**
      * Get the value of id
@@ -57,10 +56,8 @@ class BookingType
         return $this->id;
     }
 
-    
-
     /**
-     * Get oRM\Column(type="string", length=32)
+     * Get the value of type
      */ 
     public function getType()
     {
@@ -68,7 +65,7 @@ class BookingType
     }
 
     /**
-     * Set oRM\Column(type="string", length=32)
+     * Set the value of type
      *
      * @return  self
      */ 
@@ -79,32 +76,28 @@ class BookingType
         return $this;
     }
 
-
-
     /**
-     * Get oRM\Column(type="boolean")
+     * Get the value of canExpire
      */ 
-    public function getCan_expire()
+    public function getCanExpire()
     {
-        return $this->can_expire;
+        return $this->canExpire;
     }
 
     /**
-     * Set oRM\Column(type="boolean")
+     * Set the value of canExpire
      *
      * @return  self
      */ 
-    public function setCan_expire($can_expire)
+    public function setCanExpire($canExpire)
     {
-        $this->can_expire = $can_expire;
+        $this->canExpire = $canExpire;
 
         return $this;
     }
 
-
-
     /**
-     * Get oRM\Column(type="boolean")
+     * Get the value of dummy
      */ 
     public function getDummy()
     {
@@ -112,7 +105,7 @@ class BookingType
     }
 
     /**
-     * Set oRM\Column(type="boolean")
+     * Set the value of dummy
      *
      * @return  self
      */ 
@@ -123,9 +116,6 @@ class BookingType
         return $this;
     }
 
-
-
-
     /**
      * Get $created
      *
@@ -135,8 +125,6 @@ class BookingType
     {
         return $this->created;
     }
-    
-
 
     /**
      * Get $updated
