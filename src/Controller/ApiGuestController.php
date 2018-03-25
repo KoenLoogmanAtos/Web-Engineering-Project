@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\JmsController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\GuestType;
 use App\Entity\Guest;
 
 /**
@@ -46,8 +47,8 @@ class ApiGuestController extends JmsController
     {
         $data = array();
 
-        $guest = new guest();
-        $form = $this->createForm(guestType::class, $guest);
+        $guest = new Guest();
+        $form = $this->createForm(GuestTy::class, $guest);
 
         $form->handleRequest($request);
 
@@ -78,7 +79,7 @@ class ApiGuestController extends JmsController
         $data = array();
 
         $guest = $this->getDoctrine()->getRepository(Guest::class)->find($id);
-        $form = $this->createForm(guestType::class, $guest);
+        $form = $this->createForm(GuestTy::class, $guest);
 
         $form->handleRequest($request);
 

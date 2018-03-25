@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\JmsController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\RoomType;
 use App\Entity\Room;
 
 /**
@@ -46,8 +47,8 @@ class ApiRoomController extends JmsController
     {
         $data = array();
 
-        $room = new room();
-        $form = $this->createForm(roomType::class, $room);
+        $room = new Room();
+        $form = $this->createForm(RoomType::class, $room);
 
         $form->handleRequest($request);
 
@@ -78,7 +79,7 @@ class ApiRoomController extends JmsController
         $data = array();
 
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
-        $form = $this->createForm(roomType::class, $room);
+        $form = $this->createForm(RoomType::class, $room);
 
         $form->handleRequest($request);
 
