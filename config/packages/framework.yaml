@@ -13,3 +13,7 @@ framework:
     #fragments: ~
     php_errors:
         log: true
+
+    session:
+        # With this config, PHP's native session handling is used
+        handler_id: ~
