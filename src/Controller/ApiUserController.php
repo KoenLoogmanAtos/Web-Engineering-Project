@@ -16,16 +16,12 @@ class ApiUserController extends JmsController
     /**
      * @Route(methods={"GET", "HEAD"}, name="api_user_index")
      */
-    public function index(Request $request)
+    public function index()
     {
         $data = array();
 
         $users = array();
-        if ($request->query->has("s")) {
-            $users = $this->getDoctrine()->getRepository(User::class)->findByUsername($request->query->get("s"));
-        } else {
-            $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        }
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         $data["reports"] = $users;
 
         return $this->jms_json($data);
