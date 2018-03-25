@@ -3,32 +3,35 @@
 namespace App\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RoomTypeRepository")
  */
-class User
+class RoomType
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=64, unique=true)
+     * @ORM\Column(type="string", length=32)
      */
-    private $username;
+    private $type;
 
     /**
-     * @ORM\Column(type="string", length=128)
-     * @JMS\Exclude()
+     * @ORM\Column(type="integer")
      */
-    private $password;
-
+    private $capacity;
+    
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $roomType;
+    
     /**
      * @var \DateTime $created
      *
@@ -44,7 +47,8 @@ class User
      * @ORM\Column(type="datetime")
      */
     private $updated;
-    
+
+
     /**
      * Get the value of id
      */ 
@@ -54,51 +58,63 @@ class User
     }
 
     /**
-     * Get the value of username
+     * Get the value of type
      */ 
-    public function getUsername()
+    public function getType()
     {
-        return $this->username;
+        return $this->type;
     }
 
     /**
-     * Set the value of username
+     * Set the value of type
      *
      * @return  self
      */ 
-    public function setUsername($username)
+    public function setType($type)
     {
-        $this->username = $username;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get the value of password
+     * Get the value of capacity
      */ 
-    public function getPassword()
+    public function getCapacity()
     {
-        return ;
+        return $this->capacity;
     }
 
     /**
-     * Set the value of password
+     * Set the value of capacity
      *
      * @return  self
      */ 
-    public function setPassword($password)
+    public function setCapacity($capacity)
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->capacity = $capacity;
 
         return $this;
     }
 
     /**
-     * Vertifies the password
+     * Get the value of roomType
      */ 
-    public function verifyPassword($password)
+    public function getRoomType()
     {
-        return password_verify($password, $this->password);
+        return $this->roomType;
+    }
+
+    /**
+     * Set the value of roomType
+     *
+     * @return  self
+     */ 
+    public function setRoomType($roomType)
+    {
+        $this->roomType = $roomType;
+
+        return $this;
     }
 
     /**

@@ -3,31 +3,34 @@
 namespace App\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\BookingTypeRepository")
  */
-class User
+class BookingType
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=64, unique=true)
+     * ORM\Column(type="string", length=32)
      */
-    private $username;
+    private $type;
 
     /**
-     * @ORM\Column(type="string", length=128)
-     * @JMS\Exclude()
+     * ORM\Column(type="boolean")
      */
-    private $password;
+    private $can_expire;
+
+    /**
+     * ORM\Column(type="boolean")
+     */
+    private $dummy;
 
     /**
      * @var \DateTime $created
@@ -44,6 +47,7 @@ class User
      * @ORM\Column(type="datetime")
      */
     private $updated;
+
     
     /**
      * Get the value of id
@@ -53,53 +57,74 @@ class User
         return $this->id;
     }
 
+    
+
     /**
-     * Get the value of username
+     * Get oRM\Column(type="string", length=32)
      */ 
-    public function getUsername()
+    public function getType()
     {
-        return $this->username;
+        return $this->type;
     }
 
     /**
-     * Set the value of username
+     * Set oRM\Column(type="string", length=32)
      *
      * @return  self
      */ 
-    public function setUsername($username)
+    public function setType($type)
     {
-        $this->username = $username;
+        $this->type = $type;
 
         return $this;
     }
 
+
+
     /**
-     * Get the value of password
+     * Get oRM\Column(type="boolean")
      */ 
-    public function getPassword()
+    public function getCan_expire()
     {
-        return ;
+        return $this->can_expire;
     }
 
     /**
-     * Set the value of password
+     * Set oRM\Column(type="boolean")
      *
      * @return  self
      */ 
-    public function setPassword($password)
+    public function setCan_expire($can_expire)
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->can_expire = $can_expire;
 
         return $this;
     }
 
+
+
     /**
-     * Vertifies the password
+     * Get oRM\Column(type="boolean")
      */ 
-    public function verifyPassword($password)
+    public function getDummy()
     {
-        return password_verify($password, $this->password);
+        return $this->dummy;
     }
+
+    /**
+     * Set oRM\Column(type="boolean")
+     *
+     * @return  self
+     */ 
+    public function setDummy($dummy)
+    {
+        $this->dummy = $dummy;
+
+        return $this;
+    }
+
+
+
 
     /**
      * Get $created
@@ -110,6 +135,8 @@ class User
     {
         return $this->created;
     }
+    
+
 
     /**
      * Get $updated
