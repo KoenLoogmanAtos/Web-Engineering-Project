@@ -7,16 +7,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+use App\Entity\RoomType as RType;
 
 class RoomType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('roomType', NumberType::class)
+        ->add('roomType', EntityType::class, array(
+            'class' => RType::class,
+            'choice_label' => 'type'
+        ))
         ->add('name', TextType::class)
         ->add('validFrom', DateType::class)
         ->add('validTo', DateType::class)
