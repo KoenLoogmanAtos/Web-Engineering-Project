@@ -33,6 +33,11 @@ class BookingType
     private $dummy;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="bookingType")
+     */
+    private $bookings;
+
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -48,6 +53,11 @@ class BookingType
      */
     private $updated;
     
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
+
     /**
      * Get the value of id
      */ 
