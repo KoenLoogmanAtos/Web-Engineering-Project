@@ -25,10 +25,16 @@ security:
             pattern:    ^/
             http_basic: ~
             provider: our_db_provider
+
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
        
     access_control:
         # require ROLE_ADMIN for /admin*
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
