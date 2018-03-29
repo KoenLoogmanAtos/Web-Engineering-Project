@@ -22,8 +22,14 @@ class RoomTypeController extends Controller
             'method' => 'PUT',
         ));
 
+        $createForm = $this->createForm(RoomTypeType::class, $roomType, array(
+            'action' => $this->generateUrl('api_room_type_create'),
+            'method' => 'POST',
+        ));
+
         return $this->render('room_type/index.html.twig', [
             'roomTypes' => $roomTypes,
+            'createForm' => $createForm->createView(),
             'editForm' => $editForm->createView(),
         ]);
     }
