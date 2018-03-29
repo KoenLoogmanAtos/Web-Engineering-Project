@@ -132,20 +132,28 @@
                     $('.room_types').html('');
 
                     $.each(roomTypes, function(index, roomType) {
-                        // create new row
-                        $('.room_types').append('<tr data-id="' + roomType.id + '" data-type="' + roomType.type + '" data-capacity="' + roomType.capacity + '"></tr>');
-
-                        // could be used to update existing row
-                        var row = $('.room_types tr[data-id='+ roomType.id +']');
-                        row.append('<td scope="row" class="align-middle">' + roomType.id + '</td>');
-                        row.append('<td class="align-middle">' + roomType.type + '</td>');
-                        row.append('<td class="align-middle">' + roomType.capacity + '</td>');
-                        row.append('<td class="align-middle">' + moment(roomType.created).format('YYYY-MM-DD HH:mm:ss') + '</td>');
-                        row.append('<td class="align-middle">' + moment(roomType.updated).format('YYYY-MM-DD HH:mm:ss') +'</td>');
-                        row.append('<td class="text-right"><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button> <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button></td>');
+                        updateRow(roomType);
                     });
                 }
             });
+        }
+
+        function updateRow(roomType) {
+            var row = $('.room_types tr[data-id='+ roomType.id +']');
+            if (!row.length) {
+                $('.room_types').append('<tr data-id="' + roomType.id + '"></tr>');
+                row = $('.room_types tr[data-id='+ roomType.id +']');
+            }
+            row.data('type', roomType.type);
+            row.data('capacity', roomType.capacity);
+
+            row.append('<td scope="row" class="align-middle">' + roomType.id + '</td>');
+            row.append('<td class="align-middle">' + roomType.type + '</td>');
+            row.append('<td class="align-middle">' + roomType.capacity + '</td>');
+            row.append('<td class="align-middle">' + moment(roomType.created).format('YYYY-MM-DD HH:mm:ss') + '</td>');
+            row.append('<td class="align-middle">' + moment(roomType.updated).format('YYYY-MM-DD HH:mm:ss') +'</td>');
+
+            row.append('<td class="text-right"><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button> <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button></td>');
         }
 
         $('form').submit(function(event) {
@@ -161,21 +169,7 @@
             });
 
             $('#createModal, #editModal, #deleteModal').modal('hide');
-            event.preventDefault();
-        });
-
-        // delete modal
-        $('#deleteModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var data = button.parent().parent().data();
-
-            var modal = $(this);
-
-            // update id
-            var url = modal.find('form').attr('action');
-            modal.find('form').attr('action', url.replace(/\d+$/, data.id));
-
-            modal.find('.target').html(data.type);
+            return false;
         });
 
         // edit modal
@@ -194,6 +188,20 @@
             $.each(data, function(key, value) {
                 modal.find("input[name='room_type[" + key + "]']").val(value);
             });
+        });
+
+        // delete modal
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var data = button.parent().parent().data();
+
+            var modal = $(this);
+
+            // update id
+            var url = modal.find('form').attr('action');
+            modal.find('form').attr('action', url.replace(/\d+$/, data.id));
+
+            modal.find('.target').html(data.type);
         });
     });
 </script>
