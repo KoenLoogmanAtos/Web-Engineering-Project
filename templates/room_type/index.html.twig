@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Type</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Created</th>
+                <th scope="col">Updated</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for roomType in roomTypes %}
+            <tr>
+                <td scope="row">{{ roomType.id }}</td>
+                <td>{{ roomType.type | e }}</td>
+                <td>{{ roomType.capacity | e }}</td>
+                <td>{{ roomType.created | date('Y-m-d H:i:s') }}</td>
+                <td>{{ roomType.updated | date('Y-m-d H:i:s') }}</td>
+                <td class="text-right">
+                    <button type="button" class="btn btn-secondary" data-id="{{ roomType.id }}" data-toggle="modal" data-target="#editModal">Edit</button>
+                    <button type="button" class="btn btn-danger" data-id="{{ roomType.id }}" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No room types found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{ form_start(editForm) }}
+                <div class="modal-body">
+                    {{ form_errors(editForm) }}
+                    {{ form_row(editForm.type) }}
+                    {{ form_row(editForm.capacity) }}
+                </div>
+                <div class="modal-footer">
+                    {{ form_widget(editForm.submit) }}
+                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+                {{ form_end(editForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+
+            var modal = $(this);
+            modal.find('.modal-title').text('Edit ' + id);
+
+            // update id
+            var url = modal.find('form').attr('action');
+            modal.find('form').attr('action', url.replace(/\d+$/, id));
+        });
+    });
+</script>
+{% endblock %}
