@@ -46,6 +46,9 @@ class RegistrationController extends Controller
         );
     }
 
+    /**
+     * @Route("/login", name="user_login")
+     */
     public function login (Request $request, AuthenticationUtils $authenticationUtils)
 {
     // get the login error if there is one
