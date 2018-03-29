@@ -1,0 +1,40 @@
+# config/packages/security.yaml
+
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+    
+    providers:
+        our_db_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+        my_in_memory_provider:
+            memory:
+                users:
+                    ryan:
+                        password: ryanpass
+                        roles: 'ROLE_USER'
+                    admin:
+                        password: kitten
+                        roles: 'ROLE_ADMIN'
+
+    firewalls:
+        main:
+            pattern:    ^/
+            http_basic: ~
+            provider: our_db_provider
+
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+       
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
