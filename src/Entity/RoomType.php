@@ -42,8 +42,7 @@ class RoomType
      * @ORM\Column(type="datetime")
      */
     private $updated;
-
-
+    
     /**
      * Get the value of id
      */ 
