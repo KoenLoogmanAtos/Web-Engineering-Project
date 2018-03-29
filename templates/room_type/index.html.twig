@@ -21,15 +21,15 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="room_types">
                 {% for roomType in roomTypes %}
                     {# store data in tr for the form creation #}
                     <tr data-id="{{ roomType.id }}" data-type="{{ roomType.type }}" data-capacity="{{ roomType.capacity }}">
                         <td scope="row" class="align-middle">{{ roomType.id }}</td>
                         <td class="align-middle">{{ roomType.type | e }}</td>
                         <td class="align-middle">{{ roomType.capacity | e }}</td>
-                        <td class="align-middle">{{ roomType.created | date('Y-m-d H:i:s') }}</td>
-                        <td class="align-middle">{{ roomType.updated | date('Y-m-d H:i:s') }}</td>
+                        <td class="align-middle moment">{{ roomType.created | date('Y-m-d H:i:s') }}</td>
+                        <td class="align-middle moment">{{ roomType.updated | date('Y-m-d H:i:s') }}</td>
                         <td class="text-right">
                             <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button>
                             <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
@@ -120,6 +120,7 @@
 {% block javascripts %}
 <script>
     $(document).ready(function() {
+        //TODO make more flexible and load only single entries
         function reload() {
             $.ajax({
                 type: 'GET', 
@@ -128,25 +129,40 @@
                 dataType: 'json',
                 success: function (data) { 
                     var roomTypes = data.reports;
-                    $('tbody').html('');
+                    $('.room_types').html('');
 
                     $.each(roomTypes, function(index, roomType) {
-                        // create row
-                        $("tbody").append('<tr data-id="' + roomType.id + '" data-type="' + roomType.type + '" data-capacity="' + roomType.capacity + '"></tr>');
+                        // create new row
+                        $('.room_types').append('<tr data-id="' + roomType.id + '" data-type="' + roomType.type + '" data-capacity="' + roomType.capacity + '"></tr>');
 
-                        var row = $('tbody tr[data-id='+ roomType.id +']');
+                        // could be used to update existing row
+                        var row = $('.room_types tr[data-id='+ roomType.id +']');
                         row.append('<td scope="row" class="align-middle">' + roomType.id + '</td>');
                         row.append('<td class="align-middle">' + roomType.type + '</td>');
                         row.append('<td class="align-middle">' + roomType.capacity + '</td>');
-                        row.append('<td class="align-middle">' + roomType.created + '</td>');
-                        row.append('<td class="align-middle">' + roomType.updated +'</td>');
+                        row.append('<td class="align-middle">' + moment(roomType.created).format('YYYY-MM-DD HH:mm:ss') + '</td>');
+                        row.append('<td class="align-middle">' + moment(roomType.updated).format('YYYY-MM-DD HH:mm:ss') +'</td>');
                         row.append('<td class="text-right"><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button> <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button></td>');
                     });
                 }
             });
         }
 
-        reload();
+        $('form').submit(function(event) {
+            var form = $(this);
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(data) {
+                    reload();
+                }
+            });
+
+            $('#createModal, #editModal, #deleteModal').modal('hide');
+            event.preventDefault();
+        });
 
         // delete modal
         $('#deleteModal').on('show.bs.modal', function (event) {
