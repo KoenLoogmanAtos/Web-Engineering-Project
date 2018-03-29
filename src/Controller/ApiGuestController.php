@@ -9,12 +9,12 @@ use App\Form\GuestType;
 use App\Entity\Guest;
 
 /**
- * @Route("api/guests")
+ * @Route("api/guests", name="api_guest")
  */
 class ApiGuestController extends JmsController
 {
     /**
-     * @Route(methods={"GET", "HEAD"}, name="api_guest_index")
+     * @Route(methods={"GET", "HEAD"}, name="_index")
      */
     public function index(Request $request)
     {
@@ -28,7 +28,7 @@ class ApiGuestController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d{1,10}"}, name="api_guest_show")
+     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d{1,10}"}, name="_show")
      */
     public function show($id)
     {
@@ -41,7 +41,7 @@ class ApiGuestController extends JmsController
     }
 
     /**
-     * @Route(methods={"POST"}, name="api_guest_create")
+     * @Route(methods={"POST"}, name="_create")
      */
     public function create(Request $request)
     {
@@ -74,7 +74,7 @@ class ApiGuestController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="api_guest_edit")
+     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="_edit")
      */
     public function edit($id, Request $request)
     {
@@ -107,7 +107,7 @@ class ApiGuestController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="api_guest_delete")
+     * @Route("/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="_delete")
      */
     public function delete($id)
     {

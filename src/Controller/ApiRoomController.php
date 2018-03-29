@@ -9,12 +9,12 @@ use App\Form\RoomType;
 use App\Entity\Room;
 
 /**
- * @Route("api/rooms")
+ * @Route("api/rooms", name="api_room")
  */
 class ApiRoomController extends JmsController
 {
     /**
-     * @Route(methods={"GET", "HEAD"}, name="api_room_index")
+     * @Route(methods={"GET", "HEAD"}, name="_index")
      */
     public function index(Request $request)
     {
@@ -28,7 +28,7 @@ class ApiRoomController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d{1,10}"}, name="api_room_show")
+     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d{1,10}"}, name="_show")
      */
     public function show($id)
     {
@@ -41,7 +41,7 @@ class ApiRoomController extends JmsController
     }
 
     /**
-     * @Route(methods={"POST"}, name="api_room_create")
+     * @Route(methods={"POST"}, name="_create")
      */
     public function create(Request $request)
     {
@@ -74,7 +74,7 @@ class ApiRoomController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="api_room_edit")
+     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="_edit")
      */
     public function edit($id, Request $request)
     {
@@ -107,7 +107,7 @@ class ApiRoomController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="api_room_delete")
+     * @Route("/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="_delete")
      */
     public function delete($id)
     {
