@@ -52,7 +52,7 @@ class RoomType
     {
         $this->rooms = new ArrayCollection();
     }
-
+  
     /**
      * Get the value of id
      */ 

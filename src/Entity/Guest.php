@@ -206,4 +206,8 @@ class Guest
 
         return $this;
     }
+
+    public function __toString() {
+        return "{$this->getFirstname()} {$this->getLastname()} ({$this->getEmail()})";
+    }
 }
