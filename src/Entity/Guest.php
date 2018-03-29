@@ -38,6 +38,11 @@ class Guest
     private $phone;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="guest")
+     */
+    private $bookings;
+
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -52,6 +57,11 @@ class Guest
      * @ORM\Column(type="datetime")
      */
     private $updated;
+    
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
     /**
      * Get the value of id
@@ -139,6 +149,14 @@ class Guest
         $this->phone = $phone;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */ 
+    public function getBookings()
+    {
+        return $this->bookings;
     }
 
     /**

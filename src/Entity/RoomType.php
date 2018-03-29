@@ -28,6 +28,11 @@ class RoomType
     private $capacity;
     
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="roomType")
+     */
+    private $rooms;
+
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -43,6 +48,10 @@ class RoomType
      */
     private $updated;
 
+    public function __construct()
+    {
+        $this->rooms = new ArrayCollection();
+    }
 
     /**
      * Get the value of id
