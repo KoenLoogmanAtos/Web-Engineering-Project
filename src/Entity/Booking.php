@@ -18,12 +18,12 @@ class Booking
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Guest", inversedBy="booking")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Guest", inversedBy="bookings")
      */
     private $guest;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\BookingType", inversedBy="booking")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BookingType", inversedBy="bookings")
      */
     private $bookingType;
 

@@ -18,7 +18,7 @@ class Room
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\RoomType", inversedBy="room")
+     * @ORM\ManyToOne(targetEntity="App\Entity\RoomType", inversedBy="rooms")
      */
     private $roomType;
 
