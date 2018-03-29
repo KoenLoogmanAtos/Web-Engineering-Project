@@ -17,17 +17,17 @@ class Booking
      */
     private $id;
 
-     /**
-     * @ORM\Column(type="integer")
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Guest", inversedBy="booking")
      */
-    private $guestId;
+    private $guest;
 
-     /**
-     * @ORM\Column(type="integer")
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BookingType", inversedBy="booking")
      */
-    private $bookingTypeId;
+    private $bookingType;
 
-     /**
+    /**
      * @var \DateTime $arrival
      *
      * @ORM\Column(type="datetime")
@@ -48,7 +48,7 @@ class Booking
      */
     private $expirationDate; 
 
-     /**
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
