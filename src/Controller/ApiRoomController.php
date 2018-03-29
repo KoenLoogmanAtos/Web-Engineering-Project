@@ -48,7 +48,9 @@ class ApiRoomController extends JmsController
         $data = array();
 
         $room = new Room();
-        $form = $this->createForm(RoomType::class, $room);
+        $form = $this->createForm(RoomType::class, $room, array(
+            'method' => 'post'
+        ));
 
         $form->handleRequest($request);
 
@@ -79,7 +81,9 @@ class ApiRoomController extends JmsController
         $data = array();
 
         $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
-        $form = $this->createForm(RoomType::class, $room);
+        $form = $this->createForm(RoomType::class, $room, array(
+            'method' => 'put'
+        ));
 
         $form->handleRequest($request);
 

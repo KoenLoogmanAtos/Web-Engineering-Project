@@ -48,7 +48,9 @@ class ApiGuestController extends JmsController
         $data = array();
 
         $guest = new Guest();
-        $form = $this->createForm(GuestTy::class, $guest);
+        $form = $this->createForm(GuestTy::class, $guest, array(
+            'method' => 'post'
+        ));
 
         $form->handleRequest($request);
 
@@ -79,7 +81,9 @@ class ApiGuestController extends JmsController
         $data = array();
 
         $guest = $this->getDoctrine()->getRepository(Guest::class)->find($id);
-        $form = $this->createForm(GuestTy::class, $guest);
+        $form = $this->createForm(GuestTy::class, $guest, array(
+            'method' => 'put'
+        ));
 
         $form->handleRequest($request);
 

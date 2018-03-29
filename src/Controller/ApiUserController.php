@@ -48,7 +48,9 @@ class ApiUserController extends JmsController
         $data = array();
 
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, array(
+            'method' => 'post'
+        ));
 
         $form->handleRequest($request);
 
@@ -79,7 +81,9 @@ class ApiUserController extends JmsController
         $data = array();
 
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, array(
+            'method' => 'put'
+        ));
 
         $form->handleRequest($request);
 

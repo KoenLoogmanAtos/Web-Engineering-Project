@@ -48,7 +48,9 @@ class ApiBookingTypeController extends JmsController
         $data = array();
 
         $bookingType = new BookingType();
-        $form = $this->createForm(BookingTypeType::class, $bookingType);
+        $form = $this->createForm(BookingTypeType::class, $bookingType, array(
+            'method' => 'post'
+        ));
 
         $form->handleRequest($request);
 
@@ -79,7 +81,9 @@ class ApiBookingTypeController extends JmsController
         $data = array();
 
         $bookingType = $this->getDoctrine()->getRepository(BookingType::class)->find($id);
-        $form = $this->createForm(BookingTypeType::class, $bookingType);
+        $form = $this->createForm(BookingTypeType::class, $bookingType, array(
+            'method' => 'put'
+        ));
 
         $form->handleRequest($request);
 
