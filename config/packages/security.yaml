@@ -28,8 +28,8 @@ security:
 
             anonymous: ~
             form_login:
-                login_path: login
-                check_path: login
+                login_path: /login
+                check_path: /login
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
