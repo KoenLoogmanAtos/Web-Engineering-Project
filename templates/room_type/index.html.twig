@@ -3,22 +3,19 @@
 {% block title %}Manage Room Types{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col text-right">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create</button>
-        </div>
-    </div>
     <div class="row mt-3">
         <div class="col">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Capacity</th>
-                        <th scope="col">Created</th>
-                        <th scope="col">Updated</th>
-                        <th></th>
+                        <th scope="col" class="align-middle">#</th>
+                        <th scope="col" class="align-middle">Type</th>
+                        <th scope="col" class="align-middle">Capacity</th>
+                        <th scope="col" class="align-middle">Created</th>
+                        <th scope="col" class="align-middle">Updated</th>
+                        <th class="text-right">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#createModal">Create</button>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="room_types">
@@ -28,11 +25,11 @@
                         <td scope="row" class="align-middle">{{ roomType.id }}</td>
                         <td class="align-middle">{{ roomType.type | e }}</td>
                         <td class="align-middle">{{ roomType.capacity | e }}</td>
-                        <td class="align-middle moment">{{ roomType.created | date('Y-m-d H:i:s') }}</td>
-                        <td class="align-middle moment">{{ roomType.updated | date('Y-m-d H:i:s') }}</td>
+                        <td class="align-middle">{{ roomType.created | date('Y-m-d H:i:s') }}</td>
+                        <td class="align-middle">{{ roomType.updated | date('Y-m-d H:i:s') }}</td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button>
-                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
                         </td>
                     </tr>
                 {% else %}
@@ -153,7 +150,7 @@
             row.append('<td class="align-middle">' + moment(roomType.created).format('YYYY-MM-DD HH:mm:ss') + '</td>');
             row.append('<td class="align-middle">' + moment(roomType.updated).format('YYYY-MM-DD HH:mm:ss') +'</td>');
 
-            row.append('<td class="text-right"><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button> <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button></td>');
+            row.append('<td class="text-right"><button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button> <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button></td>');
         }
 
         $('form').submit(function(event) {

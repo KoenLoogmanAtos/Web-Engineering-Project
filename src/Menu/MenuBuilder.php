@@ -24,7 +24,7 @@ class MenuBuilder
 
         $menu->addChild('Home', array('route' => 'index'));
 
-        $menu->setChildrenAttribute('class', 'navbar-nav');
+        $menu->setChildrenAttribute('class', 'navbar-nav mr-auto mt-2 mt-md-0');
         // menu items
         foreach ($menu as $child) {
             $child->setLinkAttribute('class', 'nav-link')
