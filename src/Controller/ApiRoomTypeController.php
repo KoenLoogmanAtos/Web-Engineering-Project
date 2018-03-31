@@ -61,9 +61,10 @@ class ApiRoomTypeController extends JmsController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($roomType);
                 $em->flush();
-                $data["message"] = "Successfully created";
+                array_push($data["alerts"], ["message" => "Successfully created"]);
+                $data["reports"] = [$roomType];
             } catch(\Exception $e) {
-                $data["message"] = "Failed to create";
+                array_push($data["alerts"], ["message" => "Failed to create"]);
 
                 //TODO cleaner error handling
                 $data["error"] = $e->getMessage();
@@ -94,9 +95,10 @@ class ApiRoomTypeController extends JmsController
                 $em = $this->getDoctrine()->getManager();
                 $em->merge($roomType);
                 $em->flush();
-                $data["message"] = "Update was successful";
+                array_push($data["alerts"], ["message" => "Update was successful"]);
+                $data["reports"] = [$roomType];
             } catch(\Exception $e) {
-                $data["message"] = "Update failed";
+                array_push($data["alerts"], ["message" => "Update failed"]);
 
                 //TODO cleaner error handling
                 $data["error"] = $e->getMessage();
@@ -119,9 +121,10 @@ class ApiRoomTypeController extends JmsController
             $em = $this->getDoctrine()->getManager();
             $em->remove($roomType);
             $em->flush();
-            $data["message"] = "Successfully deleted";
+            array_push($data["alerts"], ["message" => "Successfully deleted"]);
+            $data["removes"] = [$id];
         } catch(\Exception $e) {
-            $data["message"] = "Failed to delete";
+            array_push($data["alerts"], ["message" => "Failed to delete"]);
 
             //TODO cleaner error handling
             $data["error"] = $e->getMessage();
