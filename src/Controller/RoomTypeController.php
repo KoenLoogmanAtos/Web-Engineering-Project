@@ -28,7 +28,9 @@ class RoomTypeController extends Controller
         ));
 
         return $this->render('room_type/index.html.twig', [
-            'roomTypes' => $roomTypes,
+            'primary' => 'id',
+            'type' => 'room_type',
+            'entities' => $roomTypes,
             'createForm' => $createForm->createView(),
             'editForm' => $editForm->createView(),
         ]);
