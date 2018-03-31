@@ -1,44 +1,59 @@
 {% extends 'base.html.twig' %}
+{% set display = {"id" : "primary", "type" : "text", "capacity" : "text", "created" : "date", "updated" : "date"} %}
 
-{% block title %}Manage Room Types{% endblock %}
+{% block title %}Manage {{ type | replace({'_' : ' '}) | title }}{% endblock %}
 
 {% block body %}
     <div class="row mt-3">
         <div class="col">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="align-middle">#</th>
-                        <th scope="col" class="align-middle">Type</th>
-                        <th scope="col" class="align-middle">Capacity</th>
-                        <th scope="col" class="align-middle">Created</th>
-                        <th scope="col" class="align-middle">Updated</th>
-                        <th class="text-right">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <caption>List of {{ type | replace({'_' : ' '}) | title }}</caption>
+                    <thead class="thead-dark">
+                        <tr>
+                            {% for key in display | keys %}
+                                <th scope="col" class="align-middle">{{ key | replace({'_' : ' '}) | title }}</th>
+                            {% endfor %}
+                            <th class="text-right">
                                 <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#createModal">Create</button>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="room_types">
-                {% for roomType in roomTypes %}
-                    {# store data in tr for the form creation #}
-                    <tr data-id="{{ roomType.id }}" data-type="{{ roomType.type }}" data-capacity="{{ roomType.capacity }}">
-                        <td scope="row" class="align-middle">{{ roomType.id }}</td>
-                        <td class="align-middle">{{ roomType.type | e }}</td>
-                        <td class="align-middle">{{ roomType.capacity | e }}</td>
-                        <td class="align-middle">{{ roomType.created | date('Y-m-d H:i:s') }}</td>
-                        <td class="align-middle">{{ roomType.updated | date('Y-m-d H:i:s') }}</td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button>
-                            <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center">No room types found.</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="entities">
+                    {% for entity in entities %}
+                        {# make a temporary array from the object #}
+                        {% set temp = {} %}
+                        {% for key, value in display %}
+                            {% if value == 'date' %}
+                                {% set temp = temp | merge({(key) : attribute(entity, key) | date('Y-m-d H:i:s')}) %}
+                            {% else %}
+                                {% set temp = temp | merge({(key) : attribute(entity, key) | e}) %}
+                            {% endif %}
+                        {% endfor %}
+                        {# store data in tr for the form creation #}
+                        <tr{% for key, value in temp %} data-{{ key }}="{{ value }}"{% endfor %}>
+                            {% for key, value in temp %}
+                                {% if key == primary %}
+                                    <th scope="row" class="align-middle">{{ value }}</th>
+                                {% elseif attribute(display, key) == "date" %}
+                                    <td class="align-middle text-nowrap">{{ value }}</td>
+                                {% else %}
+                                    <td class="align-middle">{{ value }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td class="text-right text-nowrap">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="{{ (display | length) + 1 }}" class="text-center">No {{ type | replace({'_' : ' '}) | title }} found.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -46,7 +61,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Create Room Type</h5>
+                    <h5 class="modal-title">Create {{ type | replace({'_' : ' '}) | title }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -99,7 +114,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ path('api_room_type_delete', {'id' : 0}) }}" method="POST">
+                <form action="{{ path('api_' ~ type ~ '_delete', {'id' : 0}) }}" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="_method" value="DELETE">
                     <p>Do you really want to delete <span class="target">0</span>?</p>
@@ -121,36 +136,45 @@
         function reload() {
             $.ajax({
                 type: 'GET', 
-                url: "{{ path('api_room_type_index') }}", 
+                url: "{{ path('api_' ~ type ~ '_index') }}", 
                 data: {}, 
                 dataType: 'json',
                 success: function (data) { 
-                    var roomTypes = data.reports;
-                    $('.room_types').html('');
+                    var entities = data.reports;
+                    $('.entities').html('');
 
-                    $.each(roomTypes, function(index, roomType) {
-                        updateRow(roomType);
+                    $.each(entities, function(index, entity) {
+                        updateRow(entity);
                     });
+
+                    if ($('.entities').html() == '') {
+                        $('.entities').append('<tr><td colspan="{{ (display | length) + 1 }}" class="text-center">No {{ type | replace({'_' : ' '}) | title }} found.</td></tr>');
+                    }
                 }
             });
         }
 
-        function updateRow(roomType) {
-            var row = $('.room_types tr[data-id='+ roomType.id +']');
+        function updateRow(entity) {
+            var row = $('.entities tr[data-id='+ entity.{{ primary }} +']');
             if (!row.length) {
-                $('.room_types').append('<tr data-id="' + roomType.id + '"></tr>');
-                row = $('.room_types tr[data-id='+ roomType.id +']');
+                $('.entities').append('<tr data-id="' + entity.{{ primary }} + '"></tr>');
+                row = $('.entities tr[data-id='+ entity.{{ primary }} +']');
             }
-            row.data('type', roomType.type);
-            row.data('capacity', roomType.capacity);
+            $.each(entity, function(key, value) {
+                row.data(key, value);
+            });
 
-            row.append('<td scope="row" class="align-middle">' + roomType.id + '</td>');
-            row.append('<td class="align-middle">' + roomType.type + '</td>');
-            row.append('<td class="align-middle">' + roomType.capacity + '</td>');
-            row.append('<td class="align-middle">' + moment(roomType.created).format('YYYY-MM-DD HH:mm:ss') + '</td>');
-            row.append('<td class="align-middle">' + moment(roomType.updated).format('YYYY-MM-DD HH:mm:ss') +'</td>');
-
-            row.append('<td class="text-right"><button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button> <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button></td>');
+            row.html('');
+            {% for key, value in display %}
+                {% if value == "primary" %}
+                    row.append('<th scope="row" class="align-middle">' + entity.{{ key }} + '</th>');
+                {% elseif value == "date" %}
+                    row.append('<td class="align-middle text-nowrap">' + moment(entity.{{ key }}).format('YYYY-MM-DD HH:mm:ss') + '</td>');
+                {% else %}
+                    row.append('<td class="align-middle">' + entity.{{ key }} + '</td>');
+                {% endif %}
+            {% endfor %}
+            row.append('<td class="text-right text-nowrap"><button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button> <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button></td>');
         }
 
         $('form').submit(function(event) {
@@ -183,7 +207,7 @@
             modal.find('.target').html(data.type);
 
             $.each(data, function(key, value) {
-                modal.find("input[name='room_type[" + key + "]']").val(value);
+                modal.find("input[name='{{ type }}[" + key + "]']").val(value);
             });
         });
 
