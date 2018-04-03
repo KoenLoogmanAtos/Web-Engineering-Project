@@ -32,7 +32,7 @@ class ApiRoomTypeController extends JmsController
      */
     public function show($id)
     {
-        $data = array("request" => array("id" => $id));
+        $data = array();
 
         $roomType = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
         $data["reports"] = array($roomType);
@@ -45,7 +45,7 @@ class ApiRoomTypeController extends JmsController
      */
     public function create(Request $request)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
         $roomType = new RoomType();
         $form = $this->createForm(RoomTypeType::class, $roomType, array(
@@ -79,7 +79,7 @@ class ApiRoomTypeController extends JmsController
      */
     public function edit($id, Request $request)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
         $roomType = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
         $form = $this->createForm(RoomTypeType::class, $roomType, array(
@@ -113,7 +113,7 @@ class ApiRoomTypeController extends JmsController
      */
     public function delete($id)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
         $roomType = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
         

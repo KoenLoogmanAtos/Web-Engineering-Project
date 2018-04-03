@@ -8,7 +8,7 @@
         <div class="col">
             <div class="table-responsive">
                 <table class="table table-striped">
-                    <caption>List of {{ type | replace({'_' : ' '}) | title }}</caption>
+                    <caption>List of {{ (type ~ "s") | replace({'_' : ' '}) | title }}</caption>
                     <thead class="thead-dark">
                         <tr>
                             {% for key in display | keys %}
@@ -47,7 +47,7 @@
                             </td>
                         </tr>
                     {% else %}
-                        <tr>
+                        <tr class="no-entities">
                             <td colspan="{{ (display | length) + 1 }}" class="text-center">No {{ type | replace({'_' : ' '}) | title }} found.</td>
                         </tr>
                     {% endfor %}
@@ -132,27 +132,6 @@
 {% block javascripts %}
 <script>
     $(document).ready(function() {
-        //TODO make more flexible and load only single entries
-        function reload() {
-            $.ajax({
-                type: 'GET', 
-                url: "{{ path('api_' ~ type ~ '_index') }}", 
-                data: {}, 
-                dataType: 'json',
-                success: function (data) { 
-                    var entities = data.reports;
-                    $('.entities').html('');
-
-                    $.each(entities, function(index, entity) {
-                        updateRow(entity);
-                    });
-
-                    if ($('.entities').html() == '') {
-                        $('.entities').append('<tr><td colspan="{{ (display | length) + 1 }}" class="text-center">No {{ type | replace({'_' : ' '}) | title }} found.</td></tr>');
-                    }
-                }
-            });
-        }
 
         function updateRow(entity) {
             var row = $('.entities tr[data-id='+ entity.{{ primary }} +']');
@@ -185,7 +164,27 @@
                 url: form.attr('action'),
                 data: form.serialize(),
                 success: function(data) {
-                    reload();
+                    console.log("response:" + data);
+                    
+                    // put entities in table
+                    if (data.reports) {
+                        $.each(data.reports, function(index, entity) {
+                            updateRow(entity);
+                        });
+                    }
+
+                    // remove entities from table
+                    if (data.removes) {
+                        $.each(data.removes, function(index, value) {
+                            $('.entities tr[data-id='+ value +']').remove();
+                        });
+                    }
+                    
+                    // no entities found display
+                    $('.no-entities').remove();
+                    if ($('.entities').html().replace(/\s/g, '') == '') {
+                        $('.entities').append('<tr class="no-entities"><td colspan="{{ (display | length) + 1 }}" class="text-center">No {{ type | replace({'_' : ' '}) | title }} found.</td></tr>');
+                    }
                 }
             });
 
