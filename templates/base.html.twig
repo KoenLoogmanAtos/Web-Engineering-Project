@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/bootstrap-grid.min.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/bootstrap-reboot.min.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/main.css" />
-        {% block stylesheets %}{% endblock %}
-        <script defer src="{{ url('index') }}js/fontawesome-all.min.js"></script>
-    </head>
-    <body>
-        {% block body %}
-        {{ knp_menu_render('main') }}
-        <div class="container">
-            {% block content %}
-                
-            {% endblock %}
-        </div>
-        {% endblock %}
-        <script src="{{ url('index') }}js/jquery-3.3.1.min.js"></script>
-        <script src="{{ url('index') }}js/popper.min.js"></script>
-        <script src="{{ url('index') }}js/bootstrap.min.js"></script>
-        <script src="{{ url('index') }}js/main.js"></script>
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<form action="{{ path('login') }}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" />
+
+    {#
+        If you want to control the URL the user
+        is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+
+    <button type="submit">login</button>
+</form>
