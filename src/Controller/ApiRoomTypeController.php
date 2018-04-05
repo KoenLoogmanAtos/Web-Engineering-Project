@@ -19,9 +19,9 @@ class ApiRoomTypeController extends ApiController
     {
         $data = array();
 
-        $roomTypes = array();
-        $roomTypes = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
-        $data["reports"] = $roomTypes;
+        $entities = array();
+        $entities = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
+        $data["reports"] = $entities;
 
         return $this->jms_json($data);
     }
@@ -33,8 +33,8 @@ class ApiRoomTypeController extends ApiController
     {
         $data = array();
 
-        $roomType = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
-        $data["reports"] = array($roomType);
+        $entity = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
+        $data["reports"] = array($entity);
 
         return $this->jms_json($data);
     }
@@ -46,22 +46,24 @@ class ApiRoomTypeController extends ApiController
     {
         $data = array("alerts" => array());
 
-        $roomType = new RoomType();
-        $form = $this->createForm(RoomTypeType::class, $roomType, array(
+        $entity = new RoomType();
+        $form = $this->createForm(RoomTypeType::class, $entity, array(
             'method' => 'post'
         ));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomType = $form->getData();
+            $entity = $form->getData();
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($roomType);
+                $em->persist($entity);
                 $em->flush();
+
+                $data["reports"] = [$entity];
+                
                 array_push($data["alerts"], ["message" => "Successfully created"]);
-                $data["reports"] = [$roomType];
             } catch(\Exception $e) {
                 array_push($data["alerts"], ["message" => "Failed to create"]);
 
@@ -80,22 +82,24 @@ class ApiRoomTypeController extends ApiController
     {
         $data = array("alerts" => array());
 
-        $roomType = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
-        $form = $this->createForm(RoomTypeType::class, $roomType, array(
+        $entity = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
+        $form = $this->createForm(RoomTypeType::class, $entity, array(
             'method' => 'put'
         ));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomType = $form->getData();
+            $entity = $form->getData();
             
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->merge($roomType);
+                $em->merge($entity);
                 $em->flush();
+
+                $data["reports"] = [$entity];
+
                 array_push($data["alerts"], ["message" => "Update was successful"]);
-                $data["reports"] = [$roomType];
             } catch(\Exception $e) {
                 array_push($data["alerts"], ["message" => "Update failed"]);
 
@@ -114,14 +118,16 @@ class ApiRoomTypeController extends ApiController
     {
         $data = array("alerts" => array());
 
-        $roomType = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
         
         try {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($roomType);
+            $em->remove($entity);
             $em->flush();
-            array_push($data["alerts"], ["message" => "Successfully deleted"]);
+
             $data["removes"] = [$id];
+
+            array_push($data["alerts"], ["message" => "Successfully deleted"]);
         } catch(\Exception $e) {
             array_push($data["alerts"], ["message" => "Failed to delete"]);
 

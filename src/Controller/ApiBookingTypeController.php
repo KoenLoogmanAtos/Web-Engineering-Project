@@ -15,13 +15,13 @@ class ApiBookingTypeController extends ApiController
     /**
      * @Route(methods={"GET", "HEAD"}, name="_index")
      */
-    public function index(Request $request)
+    public function index()
     {
         $data = array();
 
-        $bookingTypes = array();
-        $bookingTypes = $this->getDoctrine()->getRepository(BookingType::class)->findAll();
-        $data["reports"] = $bookingTypes;
+        $entities = array();
+        $entities = $this->getDoctrine()->getRepository(BookingType::class)->findAll();
+        $data["reports"] = $entities;
 
         return $this->jms_json($data);
     }
@@ -33,8 +33,8 @@ class ApiBookingTypeController extends ApiController
     {
         $data = array();
 
-        $bookingType = $this->getDoctrine()->getRepository(BookingType::class)->find($id);
-        $data["reports"] = array($bookingType);
+        $entity = $this->getDoctrine()->getRepository(BookingType::class)->find($id);
+        $data["reports"] = array($entity);
 
         return $this->jms_json($data);
     }
@@ -44,25 +44,28 @@ class ApiBookingTypeController extends ApiController
      */
     public function create(Request $request)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
-        $bookingType = new BookingType();
-        $form = $this->createForm(BookingTypeType::class, $bookingType, array(
+        $entity = new BookingType();
+        $form = $this->createForm(BookingTypeType::class, $entity, array(
             'method' => 'post'
         ));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $bookingType = $form->getData();
+            $entity = $form->getData();
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($bookingType);
+                $em->persist($entity);
                 $em->flush();
-                $data["message"] = "Successfully created";
+
+                $data["reports"] = [$entity];
+                
+                array_push($data["alerts"], ["message" => "Successfully created"]);
             } catch(\Exception $e) {
-                $data["message"] = "Failed to create";
+                array_push($data["alerts"], ["message" => "Failed to create"]);
 
                 //TODO cleaner error handling
                 $data["error"] = $e->getMessage();
@@ -77,25 +80,28 @@ class ApiBookingTypeController extends ApiController
      */
     public function edit($id, Request $request)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
-        $bookingType = $this->getDoctrine()->getRepository(BookingType::class)->find($id);
-        $form = $this->createForm(BookingTypeType::class, $bookingType, array(
+        $entity = $this->getDoctrine()->getRepository(BookingType::class)->find($id);
+        $form = $this->createForm(BookingTypeType::class, $entity, array(
             'method' => 'put'
         ));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $bookingType = $form->getData();
+            $entity = $form->getData();
             
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->merge($bookingType);
+                $em->merge($entity);
                 $em->flush();
-                $data["message"] = "Update was successful";
+
+                $data["reports"] = [$entity];
+
+                array_push($data["alerts"], ["message" => "Update was successful"]);
             } catch(\Exception $e) {
-                $data["message"] = "Update failed";
+                array_push($data["alerts"], ["message" => "Update failed"]);
 
                 //TODO cleaner error handling
                 $data["error"] = $e->getMessage();
@@ -110,17 +116,20 @@ class ApiBookingTypeController extends ApiController
      */
     public function delete($id)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
-        $bookingType = $this->getDoctrine()->getRepository(BookingType::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(BookingType::class)->find($id);
         
         try {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($bookingType);
+            $em->remove($entity);
             $em->flush();
-            $data["message"] = "Successfully deleted";
+
+            $data["removes"] = [$id];
+
+            array_push($data["alerts"], ["message" => "Successfully deleted"]);
         } catch(\Exception $e) {
-            $data["message"] = "Failed to delete";
+            array_push($data["alerts"], ["message" => "Failed to delete"]);
 
             //TODO cleaner error handling
             $data["error"] = $e->getMessage();
