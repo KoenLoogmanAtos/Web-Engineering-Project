@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\JmsController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\GuestType;
 use App\Entity\Guest;
@@ -11,7 +10,7 @@ use App\Entity\Guest;
 /**
  * @Route("api/guests", name="api_guest")
  */
-class ApiGuestController extends JmsController
+class ApiGuestController extends ApiController
 {
     /**
      * @Route(methods={"GET", "HEAD"}, name="_index")

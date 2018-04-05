@@ -4,14 +4,13 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Controller\JmsController;
 use App\Form\BookingType;
 use App\Entity\Booking;
 
 /**
  * @Route("/api/booking", name="api_booking")
  */
-class ApiBookingController extends JmsController
+class ApiBookingController extends ApiController
 {
     /**
      * @Route(methods={"GET", "HEAD"}, name="_index")

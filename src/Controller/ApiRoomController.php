@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\JmsController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\RoomType;
 use App\Entity\Room;
@@ -11,7 +10,7 @@ use App\Entity\Room;
 /**
  * @Route("api/rooms", name="api_room")
  */
-class ApiRoomController extends JmsController
+class ApiRoomController extends ApiController
 {
     /**
      * @Route(methods={"GET", "HEAD"}, name="_index")
