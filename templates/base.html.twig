@@ -6,41 +6,48 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Booking System{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/bootstrap-grid.min.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/bootstrap-reboot.min.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ url('index') }}css/main.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ path('index') }}css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ path('index') }}css/bootstrap-grid.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ path('index') }}css/bootstrap-reboot.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ path('index') }}css/main.css" />
         {% block stylesheets %}{% endblock %}
-        <script defer src="{{ url('index') }}js/fontawesome-all.min.js"></script>
+        <script defer src="{{ path('index') }}js/fontawesome-all.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ url('index') }}">Booking System</a>
+            <a class="navbar-brand" href="{{ path('index') }}">Booking System</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 {{ knp_menu_render('main') }}
             </div>
+            <form class="form-inline" action="{{ path('login') }}" method="POST">
+                <input class="form-control" type="text" placeholder="Username" name="_username">
+                <input class="form-control" type="password" placeholder="Password" name="_password">
+                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Login</button>
+            </form>
         </nav>
         <div class="container alerts">
-            {% for alert in alerts | default([]) %}
-            <div class="alert alert-{{ alert.type | default('info') }} alert-dismissible fade show" role="alert">
-                {{ alert.message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
             {% endfor %}
         </div>
         <div class="container">
             {% block body %}{% endblock %}
         </div>
-        <script src="{{ url('index') }}js/jquery-3.3.1.min.js"></script>
-        <script src="{{ url('index') }}js/popper.min.js"></script>
-        <script src="{{ url('index') }}js/bootstrap.min.js"></script>
-        <script src="{{ url('index') }}js/moment.min.js"></script>
-        <script src="{{ url('index') }}js/main.js"></script>
+        <script src="{{ path('index') }}js/jquery-3.3.1.min.js"></script>
+        <script src="{{ path('index') }}js/popper.min.js"></script>
+        <script src="{{ path('index') }}js/bootstrap.min.js"></script>
+        <script src="{{ path('index') }}js/moment.min.js"></script>
+        <script src="{{ path('index') }}js/main.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
