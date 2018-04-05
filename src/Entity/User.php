@@ -31,6 +31,8 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
+    private $plainPassword;
+
     /**
      * @ORM\Column(type="string", length=254, unique=true)
      */
@@ -64,9 +66,52 @@ class User implements UserInterface, \Serializable
         // $this->salt = md5(uniqid('', true));
     }
 
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the value of username
+     */ 
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set the value of username
+     *
+     * @return  self
+     */ 
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+    
+    /**
+     * Get the value of email
+     */ 
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     public function getSalt()
@@ -76,14 +121,89 @@ class User implements UserInterface, \Serializable
         return null;
     }
 
+    /**
+     * Get the value of password
+     */ 
     public function getPassword()
     {
         return $this->password;
     }
 
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */ 
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of plainPassword
+     */ 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set the value of plainPassword
+     *
+     * @return  self
+     */ 
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
     public function getRoles()
     {
         return array('ROLE_USER');
+    }
+
+    /**
+     * Get the value of isActive
+     */ 
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set the value of isActive
+     *
+     * @return  self
+     */ 
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get $created
+     *
+     * @return  \DateTime
+     */ 
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Get $updated
+     *
+     * @return  \DateTime
+     */ 
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     public function eraseCredentials()
@@ -112,25 +232,5 @@ class User implements UserInterface, \Serializable
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
-    }
-
-    /**
-     * Get $created
-     *
-     * @return  \DateTime
-     */ 
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Get $updated
-     *
-     * @return  \DateTime
-     */ 
-    public function getUpdated()
-    {
-        return $this->updated;
     }
 }
