@@ -5,30 +5,42 @@ namespace App\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @Author Koen Loogman
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=64, unique=true)
+     * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=64)
      * @JMS\Exclude()
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=254, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+    
     /**
      * @var \DateTime $created
      *
@@ -44,61 +56,62 @@ class User
      * @ORM\Column(type="datetime")
      */
     private $updated;
-    
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
+
+    public function __construct()
     {
-        return $this->id;
+        $this->isActive = true;
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid('', true));
     }
 
-    /**
-     * Get the value of username
-     */ 
     public function getUsername()
     {
         return $this->username;
     }
 
-    /**
-     * Set the value of username
-     *
-     * @return  self
-     */ 
-    public function setUsername($username)
+    public function getSalt()
     {
-        $this->username = $username;
-
-        return $this;
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
     }
 
-    /**
-     * Get the value of password
-     */ 
     public function getPassword()
     {
-        return ;
+        return $this->password;
     }
 
-    /**
-     * Set the value of password
-     *
-     * @return  self
-     */ 
-    public function setPassword($password)
+    public function getRoles()
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
-
-        return $this;
+        return array('ROLE_USER');
     }
 
-    /**
-     * Vertifies the password
-     */ 
-    public function verifyPassword($password)
+    public function eraseCredentials()
     {
-        return password_verify($password, $this->password);
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 
     /**
