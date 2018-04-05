@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\UserType;
+use App\Form\RegistrationType;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ class SecurityController extends Controller
     public function registerAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class SecurityController extends Controller
         
         return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'error' => $error,
         ));
     }
 }
