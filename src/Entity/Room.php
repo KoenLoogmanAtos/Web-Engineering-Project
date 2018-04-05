@@ -23,6 +23,11 @@ class Room
     private $roomType;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\RoomType", mappedBy="rooms")
+     */
+    private $bookings;
+
+    /**
      * @ORM\Column(type="string", length=64, unique=true)
      */
     private $name;
@@ -56,6 +61,11 @@ class Room
      * @ORM\Column(type="datetime")
      */
     private $updated;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
     /**
      * Get the value of id

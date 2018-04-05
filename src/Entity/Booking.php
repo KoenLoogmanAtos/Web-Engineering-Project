@@ -28,6 +28,11 @@ class Booking
     private $bookingType;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Room", inversedBy="bookings")
+     */
+    private $rooms;
+
+    /**
      * @var \DateTime $arrival
      *
      * @ORM\Column(type="datetime")
@@ -64,6 +69,11 @@ class Booking
      */
     private $updated;
 
+    public function __construct()
+    {
+        $this->rooms = new ArrayCollection();
+    }
+    
     /**
      * Get the value of id
      */ 
