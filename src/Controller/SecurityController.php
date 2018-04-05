@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class RegistrationController extends Controller
+class SecurityController extends Controller
 {
     /**
      * @Route("/register", name="user_registration")
@@ -40,8 +40,7 @@ class RegistrationController extends Controller
             return $this->redirectToRoute('replace_with_some_route');
         }
 
-        return $this->render(
-            'registration/register.html.twig',
+        return $this->render('security/register.html.twig',
             array('form' => $form->createView())
         );
     }
@@ -57,7 +56,7 @@ class RegistrationController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
         
-        return $this->render('base.html.twig', array(
+        return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
         ));
