@@ -1,5 +1,4 @@
 # config/packages/security.yaml
-
 security:
     encoders:
         App\Entity\User:
@@ -22,7 +21,7 @@ security:
 
     firewalls:
         main:
-            pattern:    ^/
+            pattern: ^/
             http_basic: ~
             provider: our_db_provider
 
@@ -30,6 +29,10 @@ security:
             form_login:
                 login_path: /login
                 check_path: /login
+            
+            logout:
+                path: /logout
+                target: /
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
