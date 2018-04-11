@@ -56,6 +56,8 @@ class BookingType
     
     public function __construct()
     {
+        $this->canExpire = false;
+        $this->dummy = false;
         $this->bookings = new ArrayCollection();
     }
 

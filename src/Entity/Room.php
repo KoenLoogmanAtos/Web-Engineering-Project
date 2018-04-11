@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoomRepository")
@@ -23,7 +24,7 @@ class Room
     private $roomType;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\RoomType", mappedBy="rooms")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Booking", mappedBy="rooms")
      */
     private $bookings;
 
