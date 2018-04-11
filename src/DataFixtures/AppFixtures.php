@@ -93,12 +93,45 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 20; $i++) {
             $fn = $firstnames[mt_rand(0, count($firstnames) - 1)];
             $ln = $lastnames[mt_rand(0, count($lastnames) - 1)];
+
             $guests[$i] = new Guest();
             $guests[$i]->setFirstname($fn);
             $guests[$i]->setLastname($ln);
             $guests[$i]->setEmail(strtolower($fn.'.'.$ln.'@no-mail.com'));
             $guests[$i]->setPhone('0'.random_int(1249872349,1999999999));
             $manager->persist($guests[$i]);
+        }
+
+        // bookings
+        $bookings = array();
+        for ($i = 0; $i < 20; $i++) {
+            $arrival = new \DateTime();
+            $arrival->add(new \DateInterval('P'.random_int(1,10).'M'.random_int(1,10).'D'));
+
+            $expirationDate = new \DateTime();
+            $expirationDate->add(new \DateInterval('P'.random_int(3,30).'D'));
+
+            $depature = new \DateTime($arrival->format(\DateTime::ISO8601));
+            $depature->add(new \DateInterval('P'.random_int(3,14).'D'));
+
+            $bookings[$i] = new Booking();
+            $bookings[$i]->setGuest($guests[mt_rand(0, count($guests) - 1)]);
+            $bookings[$i]->setBookingType($bookingTypes[mt_rand(0, count($bookingTypes) - 1)]);
+            $bookings[$i]->setArrival($arrival);
+            $bookings[$i]->setExpirationDate($expirationDate);
+            $bookings[$i]->setDepature($depature);
+            
+            // add rooms
+            $roomIds = array_rand($rooms, mt_rand(1, count($rooms) / 2));
+            if (is_array($roomIds)) {
+                foreach ($roomIds as $id) {
+                    $bookings[$i]->getRooms()->add($rooms[$id]);
+                }
+            } else {
+                $bookings[$i]->getRooms()->add($rooms[$roomIds]);
+            }
+
+            $manager->persist($bookings[$i]);
         }
 
         $manager->flush();

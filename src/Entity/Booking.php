@@ -84,43 +84,51 @@ class Booking
     }
 
     /**
-     * Get the value of guestId
+     * Get the value of guest
      */ 
-    public function getGuestId()
+    public function getGuest()
     {
-        return $this->guestId;
+        return $this->guest;
     }
 
     /**
-     * Set the value of guestId
+     * Set the value of guest
      *
      * @return  self
      */ 
-    public function setGuestId($guestId)
+    public function setGuest($guest)
     {
-        $this->guestId = $guestId;
+        $this->guest = $guest;
+
+        return $this;
+    }
+    
+    /**
+     * Get the value of bookingType
+     */ 
+    public function getBookingType()
+    {
+        return $this->bookingType;
+    }
+
+    /**
+     * Set the value of bookingType
+     *
+     * @return  self
+     */ 
+    public function setBookingType($bookingType)
+    {
+        $this->bookingType = $bookingType;
 
         return $this;
     }
 
     /**
-     * Get the value of bookingTypeId
+     * Get the value of rooms
      */ 
-    public function getBookingTypeId()
+    public function getRooms()
     {
-        return $this->bookingTypeId;
-    }
-
-    /**
-     * Set the value of bookingTypeId
-     *
-     * @return  self
-     */ 
-    public function setBookingTypeId($bookingTypeId)
-    {
-        $this->bookingTypeId = $bookingTypeId;
-
-        return $this;
+        return $this->rooms;
     }
 
     /**
