@@ -27,9 +27,20 @@ class AppFixtures extends Fixture
         $user = new User();
         $user->setUsername("admin");
         $user->setPlainPassword("admin");
-        $user->setEmail("admin@admin.com");
+        $user->setEmail("admin@no-mail.com");
         $password = $this->encoder->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($password);
+        $user->setRoles(array('ROLE_ADMIN'));
+        $manager->persist($user);
+
+        // create user
+        $user = new User();
+        $user->setUsername("user");
+        $user->setPlainPassword("user");
+        $user->setEmail("user@no-mail.com");
+        $password = $this->encoder->encodePassword($user, $user->getPlainPassword());
+        $user->setPassword($password);
+        $user->setRoles(array('ROLE_USER'));
         $manager->persist($user);
 
         // booking types
