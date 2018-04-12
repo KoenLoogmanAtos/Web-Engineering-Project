@@ -34,6 +34,11 @@ class User implements UserInterface, \Serializable
     private $plainPassword;
 
     /**
+     * @ORM\Column(type="array")
+     */
+    private $roles;
+
+    /**
      * @ORM\Column(type="string", length=254, unique=true)
      */
     private $email;
@@ -64,6 +69,8 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
+
+        $this->roles = array('ROLE_USER');
     }
 
     /**
@@ -161,9 +168,24 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * Set the value of plainPassword
+     *
+     * @return  self
+     */ 
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of roles
+     */ 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return $this->roles;
     }
 
     /**

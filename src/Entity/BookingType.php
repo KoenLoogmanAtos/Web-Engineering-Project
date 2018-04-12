@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingTypeRepository")
@@ -55,6 +56,8 @@ class BookingType
     
     public function __construct()
     {
+        $this->canExpire = false;
+        $this->dummy = false;
         $this->bookings = new ArrayCollection();
     }
 

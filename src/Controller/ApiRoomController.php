@@ -3,65 +3,69 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\JmsController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\RoomType;
 use App\Entity\Room;
 
 /**
- * @Route("api/rooms")
+ * @Route("api/rooms", name="api_room")
  */
-class ApiRoomController extends JmsController
+class ApiRoomController extends ApiController
 {
     /**
-     * @Route(methods={"GET", "HEAD"}, name="api_room_index")
+     * @Route(methods={"GET", "HEAD"}, name="_index")
      */
-    public function index(Request $request)
+    public function index()
     {
         $data = array();
 
-        $rooms = array();
-        $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
-        $data["reports"] = $rooms;
+        $entities = array();
+        $entities = $this->getDoctrine()->getRepository(Room::class)->findAll();
+        $data["reports"] = $entities;
 
         return $this->jms_json($data);
     }
 
     /**
-     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d{1,10}"}, name="api_room_show")
+     * @Route("/{id}", methods={"GET"}, requirements={"id"="\d{1,10}"}, name="_show")
      */
     public function show($id)
     {
         $data = array();
 
-        $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
-        $data["reports"] = array($room);
+        $entity = $this->getDoctrine()->getRepository(Room::class)->find($id);
+        $data["reports"] = array($entity);
 
         return $this->jms_json($data);
     }
 
     /**
-     * @Route(methods={"POST"}, name="api_room_create")
+     * @Route(methods={"POST"}, name="_create")
      */
     public function create(Request $request)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
-        $room = new Room();
-        $form = $this->createForm(RoomType::class, $room);
+        $entity = new Room();
+        $form = $this->createForm(RoomType::class, $entity, array(
+            'method' => 'post'
+        ));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $room = $form->getData();
+            $entity = $form->getData();
 
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($room);
+                $em->persist($entity);
                 $em->flush();
-                $data["message"] = "Successfully created";
+
+                $data["reports"] = [$entity];
+                
+                array_push($data["alerts"], ["message" => "Successfully created"]);
             } catch(\Exception $e) {
-                $data["message"] = "Failed to create";
+                array_push($data["alerts"], ["message" => "Failed to create"]);
 
                 //TODO cleaner error handling
                 $data["error"] = $e->getMessage();
@@ -72,27 +76,32 @@ class ApiRoomController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="api_room_edit")
+     * @Route("/{id}", methods={"PUT"}, requirements={"id"="\d{1,10}"}, name="_edit")
      */
     public function edit($id, Request $request)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
-        $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
-        $form = $this->createForm(RoomType::class, $room);
+        $entity = $this->getDoctrine()->getRepository(Room::class)->find($id);
+        $form = $this->createForm(RoomType::class, $entity, array(
+            'method' => 'put'
+        ));
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $room = $form->getData();
+            $entity = $form->getData();
             
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->merge($room);
+                $em->merge($entity);
                 $em->flush();
-                $data["message"] = "Update was successful";
+
+                $data["reports"] = [$entity];
+
+                array_push($data["alerts"], ["message" => "Update was successful"]);
             } catch(\Exception $e) {
-                $data["message"] = "Update failed";
+                array_push($data["alerts"], ["message" => "Update failed"]);
 
                 //TODO cleaner error handling
                 $data["error"] = $e->getMessage();
@@ -103,21 +112,24 @@ class ApiRoomController extends JmsController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="api_room_delete")
+     * @Route("/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="_delete")
      */
     public function delete($id)
     {
-        $data = array();
+        $data = array("alerts" => array());
 
-        $room = $this->getDoctrine()->getRepository(Room::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Room::class)->find($id);
         
         try {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($room);
+            $em->remove($entity);
             $em->flush();
-            $data["message"] = "Successfully deleted";
+
+            $data["removes"] = [$id];
+
+            array_push($data["alerts"], ["message" => "Successfully deleted"]);
         } catch(\Exception $e) {
-            $data["message"] = "Failed to delete";
+            array_push($data["alerts"], ["message" => "Failed to delete"]);
 
             //TODO cleaner error handling
             $data["error"] = $e->getMessage();

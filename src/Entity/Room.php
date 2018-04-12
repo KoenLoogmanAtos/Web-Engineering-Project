@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoomRepository")
@@ -18,9 +19,14 @@ class Room
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\RoomType", inversedBy="room")
+     * @ORM\ManyToOne(targetEntity="App\Entity\RoomType", inversedBy="rooms")
      */
     private $roomType;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Booking", mappedBy="rooms")
+     */
+    private $bookings;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
@@ -56,6 +62,11 @@ class Room
      * @ORM\Column(type="datetime")
      */
     private $updated;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
     /**
      * Get the value of id

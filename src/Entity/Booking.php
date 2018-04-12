@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -18,14 +19,19 @@ class Booking
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Guest", inversedBy="booking")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Guest", inversedBy="bookings")
      */
     private $guest;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\BookingType", inversedBy="booking")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BookingType", inversedBy="bookings")
      */
     private $bookingType;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Room", inversedBy="bookings")
+     */
+    private $rooms;
 
     /**
      * @var \DateTime $arrival
@@ -64,6 +70,11 @@ class Booking
      */
     private $updated;
 
+    public function __construct()
+    {
+        $this->rooms = new ArrayCollection();
+    }
+    
     /**
      * Get the value of id
      */ 
@@ -73,43 +84,51 @@ class Booking
     }
 
     /**
-     * Get the value of guestId
+     * Get the value of guest
      */ 
-    public function getGuestId()
+    public function getGuest()
     {
-        return $this->guestId;
+        return $this->guest;
     }
 
     /**
-     * Set the value of guestId
+     * Set the value of guest
      *
      * @return  self
      */ 
-    public function setGuestId($guestId)
+    public function setGuest($guest)
     {
-        $this->guestId = $guestId;
+        $this->guest = $guest;
+
+        return $this;
+    }
+    
+    /**
+     * Get the value of bookingType
+     */ 
+    public function getBookingType()
+    {
+        return $this->bookingType;
+    }
+
+    /**
+     * Set the value of bookingType
+     *
+     * @return  self
+     */ 
+    public function setBookingType($bookingType)
+    {
+        $this->bookingType = $bookingType;
 
         return $this;
     }
 
     /**
-     * Get the value of bookingTypeId
+     * Get the value of rooms
      */ 
-    public function getBookingTypeId()
+    public function getRooms()
     {
-        return $this->bookingTypeId;
-    }
-
-    /**
-     * Set the value of bookingTypeId
-     *
-     * @return  self
-     */ 
-    public function setBookingTypeId($bookingTypeId)
-    {
-        $this->bookingTypeId = $bookingTypeId;
-
-        return $this;
+        return $this->rooms;
     }
 
     /**
