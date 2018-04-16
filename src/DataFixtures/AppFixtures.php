@@ -88,8 +88,8 @@ class AppFixtures extends Fixture
 
         // guests
         $guests = array();
-        $firstnames = array('Max', 'Helga', 'Dora', 'Helmut', 'Karl', 'Tom', 'Aleyna');
-        $lastnames = array('Fischer', 'Mustermann', 'Kader', 'Kruse', 'Stroetmann');
+        $firstnames = array('Max', 'Helga', 'Dora', 'Helmut', 'Karl', 'Tom', 'Aleyna', 'Klaus', 'Simon', 'Lena', 'Herald', 'Tim', 'Rebecca', 'Hanna', 'Marie', 'Paul');
+        $lastnames = array('Fischer', 'Mustermann', 'Kader', 'Kruse', 'Stroetmann', 'Schmidt', 'Regenberg', 'Pohl', 'Gartner', 'Kohl', 'Schönfeld', 'Eiermann', 'Neubauer', 'Zillmer');
         for ($i = 0; $i < 20; $i++) {
             $fn = $firstnames[mt_rand(0, count($firstnames) - 1)];
             $ln = $lastnames[mt_rand(0, count($lastnames) - 1)];
@@ -104,7 +104,7 @@ class AppFixtures extends Fixture
 
         // bookings
         $bookings = array();
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 40; $i++) {
             $arrival = new \DateTime();
             $arrival->add(new \DateInterval('P'.random_int(1,10).'M'.random_int(1,10).'D'));
 
