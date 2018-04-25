@@ -104,7 +104,7 @@ class AppFixtures extends Fixture
 
         // bookings
         $bookings = array();
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $arrival = new \DateTime();
             $arrival->add(new \DateInterval('P'.random_int(1,10).'M'.random_int(1,10).'D'));
 
