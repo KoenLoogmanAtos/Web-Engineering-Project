@@ -19,6 +19,11 @@ class BookingRepository extends ServiceEntityRepository
         parent::__construct($registry, Booking::class);
     }
 
+    public function findByDate($date)
+    {
+        return $this->findByDateRange($date, $date);
+    }
+
     public function findByDateRange($from, $to)
     {
         return $this->createQueryBuilder('b')
