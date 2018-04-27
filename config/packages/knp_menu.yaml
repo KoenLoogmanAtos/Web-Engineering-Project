@@ -1,0 +1,9 @@
+knp_menu:
+    providers:
+        builder_alias: false
+        container_aware: false
+        builder_service: false
+    twig:
+        template: 'knp_menu/bootstrap_menu.html.twig'
+    templating: false
+    default_renderer: twig

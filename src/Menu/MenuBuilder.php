@@ -21,16 +21,23 @@ class MenuBuilder
     public function createMainMenu(array $options)
     {
         $menu = $this->factory->createItem('root');
+        $menu->setChildrenAttribute('class', 'navbar-nav mr-auto mt-2 mt-md-0');
 
         $menu->addChild('Home', array('route' => 'index'));
 
+
+        return $menu;
+    }
+
+    
+    public function createAdminMenu(array $options)
+    {
+        $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav mr-auto mt-2 mt-md-0');
-        // menu items
-        foreach ($menu as $child) {
-            $child->setLinkAttribute('class', 'nav-link')
-                ->setAttribute('class', 'nav-item');
-        }
+
+        $menu->addChild('Home', array('route' => 'index'));
         
+
         return $menu;
     }
 }
