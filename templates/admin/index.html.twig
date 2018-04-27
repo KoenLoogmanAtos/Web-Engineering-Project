@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+<div class="row">
+    <nav class="nav flex-column border-right col-md-2">
+        {#{ knp_menu_render('admin') }#}
+        <a class="nav-link active" href="#">Active</a>
+    </nav>
+    <div class="col">
+        {% block display %}
+            <h1 class="h3">Hello {{ app.user.username }}!</h1>
+            
+            <p>
+                Booking overview
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Guest</th>
+                        <th>Arrival / Depature</th>
+                        <th>Nights</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking.id }}</td>
+                            <td>{{ booking.bookingType.type }}</td>
+                            <td>{{ booking.guest.firstname ~ " " ~ booking.guest.lastname }}</td>
+                            <td>
+                                {% if booking.arrivalInDays > 0 %}
+                                    Arrives in {{ booking.arrivalInDays }} day(s) ({{ booking.arrival | date('Y-m-d') }})
+                                {% else %}
+                                    Departs in {{ booking.depatureInDays }} day(s) ({{ booking.depature | date('Y-m-d') }})
+                                {% endif %}
+                            </td>
+                            <td>{{ booking.nights }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
