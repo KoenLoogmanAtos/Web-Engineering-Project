@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Entity\Author;
 
 class RegistrationType extends AbstractType
 {
@@ -34,4 +37,26 @@ class RegistrationType extends AbstractType
             'data_class' => User::class,
         ]);
     }
+
+    public function author(ValidatorInterface $validator)
+{
+    $author = new Author();
+
+    // ... do something to the $author object
+
+    $errors = $validator->validate($author);
+
+    if (count($errors) > 0) {
+        /*
+         * Uses a __toString method on the $errors variable which is a
+         * ConstraintViolationList object. This gives us a nice string
+         * for debugging.
+         */
+        $errorsString = (string) $errors;
+
+        return new Response($errorsString);
+    }
+
+    return new Response('The author is valid! Yes!');
+}
 }
