@@ -6,6 +6,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -18,10 +20,16 @@ class User implements UserInterface, \Serializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
+        /**
+     * @Assert\NotBlank()
+     */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     */
+        /**
+     * @Assert\NotBlank()
      */
     private $username;
 
@@ -41,6 +49,9 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=254, unique=true)
      */
+        /**
+     * @Assert\NotBlank()
+     */
     private $email;
 
     /**
@@ -53,6 +64,9 @@ class User implements UserInterface, \Serializable
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
+     */
+        /**
+     * @Assert\NotBlank()
      */
     private $created;
 
