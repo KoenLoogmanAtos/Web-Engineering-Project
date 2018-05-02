@@ -20,9 +20,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-        /**
-     * @Assert\NotBlank()
-     */
+        
     private $id;
 
     /**
@@ -30,6 +28,7 @@ class User implements UserInterface, \Serializable
      */
         /**
      * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $username;
 
@@ -37,6 +36,11 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=64)
      * @JMS\Exclude()
      */
+          /**
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     */
+
     private $password;
 
     private $plainPassword;
@@ -51,6 +55,12 @@ class User implements UserInterface, \Serializable
      */
         /**
      * @Assert\NotBlank()
+     */
+    /**
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     private $email;
 
