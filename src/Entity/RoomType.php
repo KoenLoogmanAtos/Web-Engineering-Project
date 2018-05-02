@@ -21,10 +21,21 @@ class RoomType
     /**
      * @ORM\Column(type="string", length=32)
      */
+     /**
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     */
+    
     private $type;
 
     /**
      * @ORM\Column(type="integer")
+     */
+        /**
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Value of capacity has to be a number"
+     * )
      */
     private $capacity;
     
