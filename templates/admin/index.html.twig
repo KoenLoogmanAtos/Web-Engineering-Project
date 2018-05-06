@@ -4,10 +4,7 @@
 
 {% block body %}
 <div class="row">
-    <nav class="nav flex-column border-right col-md-2">
-        {#{ knp_menu_render('admin') }#}
-        <a class="nav-link active" href="#">Active</a>
-    </nav>
+    {{ knp_menu_render('admin') }}
     <div class="col">
         {% block display %}
             <h1 class="h3">Hello {{ app.user.username }}!</h1>

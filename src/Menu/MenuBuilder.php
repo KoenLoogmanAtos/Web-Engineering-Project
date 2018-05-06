@@ -33,7 +33,7 @@ class MenuBuilder
     public function createAdminMenu(array $options)
     {
         $menu = $this->factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'navbar-nav mr-auto mt-2 mt-md-0');
+        $menu->setChildrenAttribute('class', 'nav flex-column');
 
         $menu->addChild('Home', array('route' => 'index'));
         

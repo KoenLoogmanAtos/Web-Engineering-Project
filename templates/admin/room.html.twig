@@ -1,0 +1,29 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Admin Rooms{% endblock %}
+
+{% block display %}
+<h1 class="h3">Rooms</h1>
+
+{{ form(createForm) }}
+
+<p>
+    Room overview
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for room in rooms %}
+        <tr>
+            <td>{{ room.id }}</td>
+            <td>{{ room.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
