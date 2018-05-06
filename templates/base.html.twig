@@ -23,7 +23,6 @@
                 {{ knp_menu_render('main') }}
             </div>
             {% if app.user %}
-                <span class="ml-3">Hello {{ app.user.username }}!</span>
                 <a href="{{ path('logout') }}"><button class="btn btn-secondary ml-md-3">Logout</button></a>
             {% else %}
                 <a href="{{ path('registration') }}"><button class="btn btn-secondary ml-md-3">Register</button></a>

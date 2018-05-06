@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+            <div class="row row-offcanvas row-offcanvas-right">
+
+              
+                    <div class="jumbotron">
+                        <h1>Booking System!</h1>
+                        <p>This is a System to get an Overview about all the Bookings and the related tasks that comes within bookings. Down side you can choose what you want to know.</p>
+                    </div>
+          
+                </div><!--/.col-xs-12.col-sm-9-->
+
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">BlaBla</a>
+                        <a href="#" class="list-group-item">Bookings</a>
+                        <a href="{{ path('ui_rooms') }}" class="list-group-item">Rooms</a>
+                       
+                    </div>
+            </div><!--/row-->
+
+            <hr>
+
+            <footer>
+            <p>© 2018 Hoftel Foehr</p>
+            </footer>
+{% endblock %}
