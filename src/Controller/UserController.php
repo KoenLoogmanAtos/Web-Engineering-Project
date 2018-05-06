@@ -22,7 +22,7 @@ class UserController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $bookings = $em->getRepository(Booking::class)->findByDateRange($from, $to);
-        
+
         return $this->render('user/index.html.twig', [
             'bookings' => $bookings,
         ]);

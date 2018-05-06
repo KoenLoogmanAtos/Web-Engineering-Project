@@ -179,12 +179,34 @@ class Booking
         return $this;
     }
 
+    public function getArrivalInDays()
+    {
+        $today = new \DateTime();
+        $today->setTime(0, 0, 0);
+
+        $arrival = clone $this->arrival;
+        $arrival->setTime(0, 0, 0);
+
+        return $today->diff($arrival)->format("%r%a");
+    }
+    
+    public function getDepatureInDays()
+    {
+        $today = new \DateTime();
+        $today->setTime(0, 0, 0);
+        
+        $depature = clone $this->depature;
+        $depature->setTime(0, 0, 0);
+
+        return $today->diff($depature)->format("%r%a");
+    }
+
     /**
      * Get the value of nights
      */ 
     public function getNights()
     {
-        return $this->nights;
+        return $this->arrival->diff($this->depature)->format("%a");
     }
 
     /**
