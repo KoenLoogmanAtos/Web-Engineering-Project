@@ -17,3 +17,5 @@ framework:
     session:
         # With this config, PHP's native session handling is used
         handler_id: ~
+
+    validation: { enabled: true }

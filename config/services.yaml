@@ -3,6 +3,7 @@
 parameters:
     knp_menu.renderer.twig.options:
         currentClass: active
+    locale: 'en'
 
 services:
     # default configuration for services in *this* file

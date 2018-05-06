@@ -20,21 +20,34 @@ class Guest
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=128)
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     *
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $phone;
 
