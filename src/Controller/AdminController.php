@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Booking;
 use App\Entity\Room;
 use App\Entity\RoomType;
@@ -36,7 +37,7 @@ class AdminController extends Controller
     /**
      * @Route("/room", name="_room")
      */
-    public function room()
+    public function room(Request $request)
     {
         $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
 
@@ -55,15 +56,24 @@ class AdminController extends Controller
     /**
      * @Route("/room/type", name="_room_type")
      */
-    public function roomType()
+    public function roomType(Request $request)
     {
-        $roomTypes = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
-
         $roomType = new RoomType();
 
         $createForm = $this->createForm(RoomTypeForm::class, $roomType, array(
             'method' => 'POST',
         ));
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $roomType = $form->getData();
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($roomType);
+            $em->flush();
+        }
+
+        $roomTypes = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
 
         return $this->render('admin/room_type.html.twig', [
             'roomTypes' => $roomTypes,
