@@ -27,4 +27,17 @@ class UserController extends Controller
             'bookings' => $bookings,
         ]);
     }
+
+    /**
+     * change user data
+     * username
+     * email
+     */
+    public function edit() {
+
+    }
+
+    public function changePassword() {
+
+    }
 }
