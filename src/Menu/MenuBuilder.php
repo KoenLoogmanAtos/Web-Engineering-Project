@@ -43,7 +43,6 @@ class MenuBuilder
         $menu->addChild('Dashboard', array('route' => 'admin_index'));
         $menu->addChild('Room Types', array('route' => 'admin_room_type'));
         $menu->addChild('Rooms', array('route' => 'admin_room'));
-        
 
         return $menu;
     }
