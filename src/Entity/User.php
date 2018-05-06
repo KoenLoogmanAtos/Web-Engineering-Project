@@ -20,13 +20,10 @@ class User implements UserInterface, \Serializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-        
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
-     */
-        /**
+     * @ORM\Column(type="string", length=32, unique=true)
      * @Assert\NotBlank()
      * @Assert\Type("string")
      */
@@ -35,8 +32,6 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=64)
      * @JMS\Exclude()
-     */
-          /**
      * @Assert\NotBlank()
      * @Assert\Type("string")
      */
@@ -51,7 +46,7 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
-     * @ORM\Column(type="string", length=254, unique=true)
+     * @ORM\Column(type="string", length=128, unique=true)
      * 
      * @Assert\NotBlank()
      * 
