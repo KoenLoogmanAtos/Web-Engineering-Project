@@ -32,8 +32,6 @@ class Room
      *  
      * @Assert\NotBlank()
      * @Assert\Type("string")
-     */
-    /** 
      * @ORM\Column(type="string", length=64, unique=true)
      */
     private $name;
@@ -42,6 +40,7 @@ class Room
      * @var \DateTime $validFrom
      *
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
      */
     private $validFrom;
 
@@ -49,6 +48,7 @@ class Room
      * @var \DateTime $validTo
      *
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
      */
     private $validTo;
 

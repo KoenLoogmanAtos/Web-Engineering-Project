@@ -37,9 +37,8 @@ class Booking
      * @var \DateTime $arrival
      *
      * @ORM\Column(type="datetime")
-     */
-     /**
      * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $arrival;
 
@@ -47,9 +46,8 @@ class Booking
      * @var \DateTime $depature
      *
      * @ORM\Column(type="datetime")
-     */
-     /**
      * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $depature;
 
@@ -57,9 +55,8 @@ class Booking
      * @var \DateTime $expiration_date
      *
      * @ORM\Column(type="datetime")
-     */
-     /**
      * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $expirationDate; 
 

@@ -52,11 +52,9 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=254, unique=true)
-     */
-        /**
+     * 
      * @Assert\NotBlank()
-     */
-    /**
+     * 
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true
@@ -74,9 +72,6 @@ class User implements UserInterface, \Serializable
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
-     */
-        /**
-     * @Assert\NotBlank()
      */
     private $created;
 

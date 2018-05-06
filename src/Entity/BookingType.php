@@ -20,8 +20,6 @@ class BookingType
 
     /**
      * @ORM\Column(type="string", length=32)
-     */
-      /**
      * @Assert\NotBlank()
      * @Assert\Type("string")
      */
@@ -29,16 +27,12 @@ class BookingType
 
     /**
      * @ORM\Column(type="boolean")
-     */
-     /**
      * @Assert\NotNull()
      */
     private $canExpire;
 
     /**
      * @ORM\Column(type="boolean")
-     */
-     /**
      * @Assert\NotNull()
      */
     private $dummy;
