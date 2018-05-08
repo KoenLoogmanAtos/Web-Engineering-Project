@@ -45,9 +45,9 @@ class User implements UserInterface, \Serializable
     private $oldPassoword;
 
     /**
-    * @Assert\NotBlank(groups={"registration"})
-    * @Assert\Type("string", groups={"registration"})
-    * @Assert\Length(min=8, max=64, groups={"registration"})
+    * @Assert\NotBlank(groups={"new_password", "registration"})
+    * @Assert\Type("string", groups={"new_password", "registration"})
+    * @Assert\Length(min=8, max=64, groups={"new_password", "registration"})
     */
     private $plainPassword;
 
