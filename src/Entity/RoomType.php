@@ -27,11 +27,11 @@ class RoomType
      * @Assert\Type("string")
      * @Assert\Length(max=32)
      */
-    
     private $type;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
      * @Assert\Type(
      *     type="integer",
      *     message="integer.invalid"

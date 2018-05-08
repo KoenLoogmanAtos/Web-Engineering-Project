@@ -7,11 +7,14 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * Author Koen Loogman
+ * @UniqueEntity(fields={"username"}, message="user.username.not_unique")
+ * @UniqueEntity(fields={"email"}, message="user.email.not_unique")
  */
 class User implements UserInterface, \Serializable
 {
@@ -26,18 +29,26 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=32, unique=true)
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @Assert\Length(min=2, max=32)
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @JMS\Exclude()
-     * @Assert\NotBlank()
-     * @Assert\Type("string")
      */
-
     private $password;
 
+    /**
+     * @SecurityAssert\UserPassword(message = "user.password.wrong_old")
+     */
+    private $oldPassoword;
+
+    /**
+    * @Assert\NotBlank()
+    * @Assert\Type("string")
+    * @Assert\Length(min=8, max=64)
+    */
     private $plainPassword;
 
     /**
@@ -47,13 +58,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=128, unique=true)
-     * 
      * @Assert\NotBlank()
-     * 
-     * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
-     * )
+     * @Assert\Email(message = "email.invalid", checkMX = true)
      */
     private $email;
 
