@@ -10,6 +10,7 @@ use App\Entity\Room;
 use App\Entity\RoomType;
 use App\Form\RoomType as RoomForm;
 use App\Form\RoomTypeType as RoomTypeForm;
+use App\Form\BookingType as BookingForm;
 
 /**
  * @Route("/admin", name="admin")
@@ -47,6 +48,21 @@ class AdminController extends Controller
             'method' => 'POST',
         ));
 
+        $createForm->handleRequest($request);
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $room = $createForm->getData();
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($room);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Successfully created '.$room->getName()
+            );
+            return $this->redirectToRoute('admin_room');
+        }
+
         return $this->render('admin/room.html.twig', [
             'rooms' => $rooms,
             'createForm' => $createForm->createView()
@@ -83,6 +99,40 @@ class AdminController extends Controller
 
         return $this->render('admin/room_type.html.twig', [
             'roomTypes' => $roomTypes,
+            'createForm' => $createForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/booking", name="_booking")
+     */
+    public function booking(Request $request)
+    {
+        $booking = new Booking();
+
+        $createForm = $this->createForm(BookingForm::class, $booking, array(
+            'method' => 'POST',
+        ));
+
+        $createForm->handleRequest($request);
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $booking = $createForm->getData();
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($booking);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Successfully created'
+            );
+            return $this->redirectToRoute('admin_room_type');
+        }
+
+        $bookings = $this->getDoctrine()->getRepository(Booking::class)->findAll();
+
+        return $this->render('admin/booking.html.twig', [
+            'bookings' => $bookings,
             'createForm' => $createForm->createView()
         ]);
     }

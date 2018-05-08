@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Guest;
-use App\Entity\BookingType as BType;
+use App\Entity\BookingType as Type;
 
 class BookingType extends AbstractType
 {
@@ -18,11 +18,11 @@ class BookingType extends AbstractType
     {
         $builder
         ->add('guest', EntityType::class, array(
-            'class' => RType::class,
-            'choice_label' => ''
+            'class' => Guest::class,
+            'choice_label' => 'display'
         ))
         ->add('bookingType', EntityType::class, array(
-            'class' => RType::class,
+            'class' => Type::class,
             'choice_label' => 'type'
         ))
         ->add('arrival', DateType::class)
