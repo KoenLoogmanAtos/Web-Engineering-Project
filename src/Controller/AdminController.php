@@ -64,13 +64,19 @@ class AdminController extends Controller
             'method' => 'POST',
         ));
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $roomType = $form->getData();
+        $createForm->handleRequest($request);
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $roomType = $createForm->getData();
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($roomType);
             $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Successfully created '.$roomType->getType()
+            );
+            return $this->redirectToRoute('admin_room_type');
         }
 
         $roomTypes = $this->getDoctrine()->getRepository(RoomType::class)->findAll();

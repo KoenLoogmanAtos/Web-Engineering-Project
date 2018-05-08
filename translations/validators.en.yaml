@@ -1,0 +1,6 @@
+integer:
+    invalid: '{{ value }} is not a number'
+
+room_type:
+    type:
+      not_unique: 'The type {{ value }} already exists'
