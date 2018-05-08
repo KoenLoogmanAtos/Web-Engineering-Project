@@ -30,6 +30,10 @@ class SecurityController extends Controller
             $em->persist($user);
             $em->flush();
 
+            $this->addFlash(
+                'success',
+                'register.successful'
+            );
             return $this->redirectToRoute('login');
         }
 
@@ -41,7 +45,7 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function login (Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
