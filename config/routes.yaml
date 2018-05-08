@@ -1,5 +1,5 @@
 index:
     path:       /
-    controller: App\Controller\RoomTypeController::index
+    controller: App\Controller\SecurityController::login
 logout:
     path: /logout
