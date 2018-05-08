@@ -24,6 +24,7 @@ class RegistrationType extends AbstractType
         ->add('username', TextType::class)
         ->add('plainPassword', RepeatedType::class, array(
             'type' => PasswordType::class,
+            'invalid_message' => 'user.password.not_same',
             'first_options'  => array('label' => 'Password'),
             'second_options' => array('label' => 'Repeat Password')
         ))
@@ -37,26 +38,4 @@ class RegistrationType extends AbstractType
             'data_class' => User::class,
         ]);
     }
-
-    public function author(ValidatorInterface $validator)
-{
-    $author = new Author();
-
-    // ... do something to the $author object
-
-    $errors = $validator->validate($author);
-
-    if (count($errors) > 0) {
-        /*
-         * Uses a __toString method on the $errors variable which is a
-         * ConstraintViolationList object. This gives us a nice string
-         * for debugging.
-         */
-        $errorsString = (string) $errors;
-
-        return new Response($errorsString);
-    }
-
-    return new Response('The author is valid! Yes!');
-}
 }
