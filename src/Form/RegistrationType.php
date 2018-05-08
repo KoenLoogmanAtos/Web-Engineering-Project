@@ -24,7 +24,7 @@ class RegistrationType extends AbstractType
         ->add('username', TextType::class)
         ->add('plainPassword', RepeatedType::class, array(
             'type' => PasswordType::class,
-            'invalid_message' => 'user.password.not_same',
+            'invalid_message' => 'user.password.no_match',
             'first_options'  => array('label' => 'Password'),
             'second_options' => array('label' => 'Repeat Password')
         ))
@@ -36,6 +36,7 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => array('registration'),
         ]);
     }
 }
