@@ -6,9 +6,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoomRepository")
+ * @UniqueEntity(fields={"name"}, message="room.name.not_unique")
  */
 class Room
 {
@@ -34,6 +36,7 @@ class Room
      * @Assert\NotBlank()
      * @Assert\Type("string")
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Assert\Length(max=64)
      */
     private $name;
 

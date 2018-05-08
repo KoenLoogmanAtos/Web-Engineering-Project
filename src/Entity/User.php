@@ -40,14 +40,14 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @SecurityAssert\UserPassword(message = "user.password.wrong_old")
+     * @SecurityAssert\UserPassword(message = "user.password.wrong_old", groups={"new_password"})
      */
     private $oldPassoword;
 
     /**
-    * @Assert\NotBlank()
-    * @Assert\Type("string")
-    * @Assert\Length(min=8, max=64)
+    * @Assert\NotBlank(groups={"registration"})
+    * @Assert\Type("string", groups={"registration"})
+    * @Assert\Length(min=8, max=64, groups={"registration"})
     */
     private $plainPassword;
 
