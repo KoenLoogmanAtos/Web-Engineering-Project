@@ -36,6 +36,7 @@ security:
             security: false
     access_control:
         # require ROLE_ADMIN for /admin*
+        - { path: ^/user, roles: ROLE_USER }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
     role_hierarchy:

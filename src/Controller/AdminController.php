@@ -34,7 +34,6 @@ class AdminController extends Controller
         ]);
     }
 
-
     /**
      * @Route("/room", name="_room")
      */

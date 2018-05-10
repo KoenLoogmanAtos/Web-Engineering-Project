@@ -25,7 +25,6 @@
             {% if app.user %}
                 <a href="{{ path('logout') }}"><button class="btn btn-secondary ml-md-3">Logout</button></a>
             {% else %}
-                <a href="{{ path('registration') }}"><button class="btn btn-secondary ml-md-3">Register</button></a>
                 <a href="{{ path('login') }}"><button class="btn btn-secondary ml-md-3">Login</button></a>
             {% endif %}
         </nav>
@@ -42,7 +41,12 @@
             {% endfor %}
         </div>
         <div class="container mt-3">
-            {% block body %}{% endblock %}
+            <div class="row">
+                {{ knp_menu_render('side') }}
+                <div class="col">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
         </div>
         <script src="{{ path('index') }}js/jquery-3.3.1.min.js"></script>
         <script src="{{ path('index') }}js/popper.min.js"></script>

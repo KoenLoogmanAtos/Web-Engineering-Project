@@ -3,20 +3,12 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-<table class="table">
-    <thead>
-
-    </thead>
-    <tbody>
-        {% for booking in bookings %}
-            <tr>
-                <td>{{ booking.guest.firstname }}</td>
-                <td>{{ booking.guest.lastname }}</td>
-                <td>{{ booking.bookingType.type }}</td>
-                <td>{{ booking.arrival | date('Y-m-d H:i:s')  }}</td>
-                <td>{{ booking.depature | date('Y-m-d H:i:s')  }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="row">
+    <div class="col">Username:</div>
+    <div class="col">{{ user.username }}</div>
+</div>
+<div class="row">
+    <div class="col">Email:</div>
+    <div class="col">{{ user.email }}</div>
+</div>
 {% endblock %}

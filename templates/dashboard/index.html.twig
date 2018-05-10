@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<table class="table">
+    <thead>
+
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.guest.firstname }}</td>
+                <td>{{ booking.guest.lastname }}</td>
+                <td>{{ booking.bookingType.type }}</td>
+                <td>{{ booking.arrival | date('Y-m-d H:i:s')  }}</td>
+                <td>{{ booking.depature | date('Y-m-d H:i:s')  }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
