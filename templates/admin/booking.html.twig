@@ -1,0 +1,43 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Admin Bookings{% endblock %}
+
+{% block display %}
+<h1 class="h3">Bookings</h1>
+
+{{ form(createForm) }}
+
+<p>
+    Booking overview
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Guest</th>
+            <th>Arrival / Depature</th>
+            <th>Nights</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ booking.bookingType.type }}</td>
+            <td>{{ booking.guest.firstname ~ " " ~ booking.guest.lastname }}</td>
+            <td>
+                {% if booking.arrivalInDays > 0 and booking.arrivalInDays <= 31 %}
+                    Arrives in {{ booking.arrivalInDays }} day(s) ({{ booking.arrival | date('Y-m-d') }})
+                {% elseif booking.arrivalInDays < 0 and booking.depatureInDays > 0 %}
+                    Departs in {{ booking.depatureInDays }} day(s) ({{ booking.depature | date('Y-m-d') }})
+                {% else %}
+                    {{ booking.arrival | date('Y-m-d') }} - {{ booking.depature | date('Y-m-d') }}
+                {% endif %}
+            </td>
+            <td>{{ booking.nights }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

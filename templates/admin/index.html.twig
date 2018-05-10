@@ -29,10 +29,12 @@
                             <td>{{ booking.bookingType.type }}</td>
                             <td>{{ booking.guest.firstname ~ " " ~ booking.guest.lastname }}</td>
                             <td>
-                                {% if booking.arrivalInDays > 0 %}
+                                {% if booking.arrivalInDays > 0 and booking.arrivalInDays <= 31 %}
                                     Arrives in {{ booking.arrivalInDays }} day(s) ({{ booking.arrival | date('Y-m-d') }})
-                                {% else %}
+                                {% elseif booking.arrivalInDays < 0 and booking.depatureInDays > 0 %}
                                     Departs in {{ booking.depatureInDays }} day(s) ({{ booking.depature | date('Y-m-d') }})
+                                {% else %}
+                                    {{ booking.arrival | date('Y-m-d') }} - {{ booking.depature | date('Y-m-d') }}
                                 {% endif %}
                             </td>
                             <td>{{ booking.nights }}</td>
