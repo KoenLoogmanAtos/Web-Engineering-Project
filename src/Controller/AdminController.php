@@ -8,10 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Booking;
 use App\Entity\Room;
 use App\Entity\RoomType;
+use App\Entity\BookingType;
+use App\Entity\Guest;
 use App\Form\RoomType as RoomForm;
 use App\Form\RoomTypeType as RoomTypeForm;
 use App\Form\BookingType as BookingForm;
-
+use App\Form\BookingTypeType as BookingTypeForm;
+use App\Form\GuestType as GuestForm;
 /**
  * @Route("/admin", name="admin")
  */
@@ -40,7 +43,7 @@ class AdminController extends Controller
      */
     public function room(Request $request)
     {
-        $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
+        
 
         $room = new Room();
 
@@ -62,6 +65,8 @@ class AdminController extends Controller
             );
             return $this->redirectToRoute('admin_room');
         }
+
+        $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
 
         return $this->render('admin/room.html.twig', [
             'rooms' => $rooms,
@@ -133,6 +138,75 @@ class AdminController extends Controller
 
         return $this->render('admin/booking.html.twig', [
             'bookings' => $bookings,
+            'createForm' => $createForm->createView()
+        ]);
+    }
+/**
+     * @Route("/booking/type", name="_booking_type")
+     */
+    public function bookingType(Request $request)
+    {
+        $bookingType = new BookingType();
+
+        $createForm = $this->createForm(BookingTypeForm::class, $bookingType, array(
+            'method' => 'POST',
+        ));
+
+        $createForm->handleRequest($request);
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $roomType = $createForm->getData();
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($bookingype);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Successfully created '.$bookingType->getType()
+            );
+            return $this->redirectToRoute('admin_booking_type');
+        }
+
+        $bookingTypes = $this->getDoctrine()->getRepository(BookingType::class)->findAll();
+
+        return $this->render('admin/booking_type.html.twig', [
+            'bookingTypes' => $bookingTypes,
+            'createForm' => $createForm->createView()
+        ]);
+    }
+    
+     /**
+     * @Route("/guest", name="_guest")
+     */
+    public function guest(Request $request)
+    {
+
+        $guest = new Guest();
+
+        $createForm = $this->createForm(GuestForm::class, $guest, array(
+            'method' => 'POST',
+        ));
+
+        $createForm->handleRequest($request);
+        if ($createForm->isSubmitted() && $createForm->isValid()) {
+            $guest = $createForm->getData();
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($guest);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Successfully created '.$guest->getDisplay()
+            );
+            return $this->redirectToRoute('admin_guest');
+        }
+
+        $guests = $this->getDoctrine()->getRepository(Guest::class)->findAll();
+
+
+        return $this->render('admin/guest.html.twig', [
+            'guests' => $guests,
             'createForm' => $createForm->createView()
         ]);
     }
