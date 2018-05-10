@@ -1,0 +1,35 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Admin Guests{% endblock %}
+
+{% block display %}
+<h1 class="h3">Guests</h1>
+
+{{ form(createForm) }}
+
+<p>
+    Guest overview
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>E-Mail</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for guest in guests %}
+        <tr>
+            <td>{{ guest.id }}</td>
+            <td>{{ guest.firstname }}</td>
+            <td>{{ guest.lastname }}</td>
+            <td>{{ guest.email }}</td>
+            <td>{{ guest.phone }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
