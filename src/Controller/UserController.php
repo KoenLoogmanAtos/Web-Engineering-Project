@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\User;
 
 /**
  * @Route("/user", name="user")
@@ -19,11 +20,5 @@ class UserController extends Controller
         return $this->render('user/index.html.twig', [
             'user' => $user,
         ]);
-    }
-
-    public function newPassword(UserInterface $user) {
-        $form = $this->createForm(NewPasswordType::class, $user, array(
-            'method' => 'POST',
-        ));
     }
 }

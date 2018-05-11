@@ -40,9 +40,10 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @Assert\NotBlank(groups={"new_password"})
      * @SecurityAssert\UserPassword(message = "user.password.wrong_old", groups={"new_password"})
      */
-    private $oldPassoword;
+    private $oldPassword;
 
     /**
     * @Assert\NotBlank(groups={"new_password", "registration"})
@@ -164,6 +165,26 @@ class User implements UserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+    
+    /**
+     * Get the value of oldPassoword
+     */ 
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
+
+    /**
+     * Set the value of oldPassoword
+     *
+     * @return  self
+     */ 
+    public function setOldPassword($oldPassword)
+    {
+        $this->oldPassword = $oldPassword;
 
         return $this;
     }

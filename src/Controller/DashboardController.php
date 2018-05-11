@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
     /**
      * @Route("", name="index")
-     * @Security("has_role('ROLE_USER')")
+     * Security("has_role('ROLE_USER')")
      */
     public function index()
     {

@@ -39,17 +39,15 @@ class AdminController extends Controller
      */
     public function room(Request $request)
     {
-        $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
-
         $room = new Room();
 
-        $createForm = $this->createForm(RoomForm::class, $room, array(
+        $form = $this->createForm(RoomForm::class, $room, array(
             'method' => 'POST',
         ));
 
-        $createForm->handleRequest($request);
-        if ($createForm->isSubmitted() && $createForm->isValid()) {
-            $room = $createForm->getData();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $room = $form->getData();
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
@@ -62,9 +60,11 @@ class AdminController extends Controller
             return $this->redirectToRoute('admin_room');
         }
 
+        $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
+        
         return $this->render('admin/room.html.twig', [
             'rooms' => $rooms,
-            'createForm' => $createForm->createView()
+            'createForm' => $form->createView()
         ]);
     }
 
@@ -75,21 +75,21 @@ class AdminController extends Controller
     {
         $roomType = new RoomType();
 
-        $createForm = $this->createForm(RoomTypeForm::class, $roomType, array(
+        $form = $this->createForm(RoomTypeForm::class, $roomType, array(
             'method' => 'POST',
         ));
 
-        $createForm->handleRequest($request);
-        if ($createForm->isSubmitted() && $createForm->isValid()) {
-            $roomType = $createForm->getData();
-            
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $roomType = $form->getData();
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($roomType);
             $em->flush();
 
             $this->addFlash(
                 'success',
-                'Successfully created '.$roomType->getType()
+                'room_type.create.successful '.$roomType->getType()
             );
             return $this->redirectToRoute('admin_room_type');
         }
@@ -98,7 +98,7 @@ class AdminController extends Controller
 
         return $this->render('admin/room_type.html.twig', [
             'roomTypes' => $roomTypes,
-            'createForm' => $createForm->createView()
+            'createForm' => $form->createView()
         ]);
     }
 
@@ -109,30 +109,30 @@ class AdminController extends Controller
     {
         $booking = new Booking();
 
-        $createForm = $this->createForm(BookingForm::class, $booking, array(
+        $form = $this->createForm(BookingForm::class, $booking, array(
             'method' => 'POST',
         ));
 
-        $createForm->handleRequest($request);
-        if ($createForm->isSubmitted() && $createForm->isValid()) {
-            $booking = $createForm->getData();
-            
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $booking = $form->getData();
+    
             $em = $this->getDoctrine()->getManager();
             $em->persist($booking);
             $em->flush();
 
             $this->addFlash(
                 'success',
-                'Successfully created'
+                'room_type.create.successful'
             );
-            return $this->redirectToRoute('admin_room_type');
+            return $this->redirectToRoute('admin_booking');
         }
 
         $bookings = $this->getDoctrine()->getRepository(Booking::class)->findAll();
 
         return $this->render('admin/booking.html.twig', [
             'bookings' => $bookings,
-            'createForm' => $createForm->createView()
+            'createForm' => $form->createView()
         ]);
     }
 }

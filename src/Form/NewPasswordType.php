@@ -30,7 +30,7 @@ class NewPasswordType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'validation_groups' => array('new_passowrd'),
+            'validation_groups' => array('new_password'),
         ]);
     }
 }
