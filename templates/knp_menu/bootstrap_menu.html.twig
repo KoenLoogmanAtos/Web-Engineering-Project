@@ -159,7 +159,12 @@
 {% block linkElement %}
     {% import 'knp_menu.html.twig' as macros %}
     {% import _self as ownmacro %}
-    {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'nav-link') }}
+    {# dirty fix to have the nav-link also get the active attribute #}
+    {% if matcher.isCurrent(item) %}
+        {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'nav-link ' ~ options.currentClass) }}
+    {% else %}
+        {{ ownmacro.setCssClassAttribute(item, 'LinkAttribute', 'nav-link') }}
+    {% endif %}
     <a href="{{ item.uri }}"{{ macros.attributes(item.linkAttributes) }}>
         {% if item.attribute('icon') is not empty  %}
             <i class="{{ item.attribute('icon') }}"></i>
