@@ -40,10 +40,10 @@ class MenuBuilder
     public function createSideMenu(array $options)
     {
         $menu = $this->factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav flex-column');
+        $menu->setChildrenAttribute('class', 'nav nav-pills flex-column');
 
         if ($this->authChecker->isGranted('ROLE_USER')) {
-            $menu->addChild('Menu');
+            $menu->addChild('Navigation');
             $menu->addChild('Dashboard', array('route' => 'index'));
         }
         
