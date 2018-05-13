@@ -10,7 +10,11 @@
             <thead>
                 <th class="align-middle">Info</th>
                 <th class="text-right">
-                    <a href="{{ path(type ~ '_edit', {'id' : entity.id}) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <form action="{{ path(type ~ '_delete', {'id' : 0}) }}" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <a href="{{ path(type ~ '_edit', {'id' : entity.id}) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <button type="submit" type="button" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
                 </th>
             </thead>
             <tbody>
