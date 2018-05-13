@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $to->add(new \DateInterval('P3D'));
 
         $em = $this->getDoctrine()->getManager();
-        $bookings = $em->getRepository(Booking::class)->findByDateRange($from, $to);
+        $bookings = $em->getRepository(Booking::class)->findByDateRange($from, $to, false, false);
 
         return $this->render('dashboard/index.html.twig', [
             'bookings' => $bookings,
@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $to->add(new \DateInterval('P3D'));
 
         $em = $this->getDoctrine()->getManager();
-        $bookings = $em->getRepository(Booking::class)->findByDateRange($from, $to);
+        $bookings = $em->getRepository(Booking::class)->findByDateRange($from, $to, false, false);
 
         return $this->render('dashboard/index.html.twig', [
             'bookings' => $bookings,

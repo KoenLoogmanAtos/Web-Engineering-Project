@@ -1,0 +1,33 @@
+{% extends 'admin/view.html.twig' %}
+
+{% block tbody %}
+<tr>
+    <th>Firstname</th>
+    <td>{{ entity.firstname }}</td>
+</tr>
+<tr>
+    <th>Lastname</th>
+    <td>{{ entity.lastname }}</td>
+</tr>
+<tr>
+    <th>Email</th>
+    <td>{{ entity.email }}</td>
+</tr>
+<tr>
+    <th>Created</th>
+    <td>{{ entity.created | date('Y-m-d H:i:s') }}</td>
+</tr>
+<tr>
+    <th>Updated</th>
+    <td>{{ entity.updated | date('Y-m-d H:i:s') }}</td>
+</tr>
+{% endblock %}
+
+{% block info %}
+<h4>History</h4>
+<ul class="list-group">
+    {% for booking in entity.bookings %}
+        <li class="list-group-item"><a href="{{ path('booking_view', {'id' : booking.id}) }}">{{ booking }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

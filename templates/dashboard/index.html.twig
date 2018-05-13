@@ -11,7 +11,7 @@
     <div class="col-lg">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">{{ booking.bookingType.type }}</h5>
+                <h5 class="card-title"><a href="{{ path('booking_view', {'id' : booking.id}) }}">{{ booking.bookingType }}</a></h5>
                 <h6 class="card-subtitle mb-2 text-muted">by {{ booking.guest.lastname }}</h6>
                 <p class="card-text">
                     Arrival: {{ booking.arrival | date('Y-m-d') }}<br>
@@ -31,7 +31,7 @@
             <ul class="list-group list-group-flush">
                 {% for room in booking.rooms %}
                     <li class="list-group-item">
-                        {{ room.name }}
+                        <a href="{{ path('room_view', {'id' : room.id}) }}">{{ room }}</a>
                     </li>
                 {% endfor %}
             </ul>

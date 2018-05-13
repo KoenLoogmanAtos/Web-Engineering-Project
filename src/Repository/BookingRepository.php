@@ -19,12 +19,12 @@ class BookingRepository extends ServiceEntityRepository
         parent::__construct($registry, Booking::class);
     }
 
-    public function findByDate($date, $dummy = false)
+    public function findByDate($date, $dummy = true, $canExpire = true)
     {
-        return $this->findByDateRange($date, $date, $dummy);
+        return $this->findByDateRange($date, $date, $dummy, $canExpire);
     }
 
-    public function findByDateRange($from, $to, $dummy = false)
+    public function findByDateRange($from, $to, $dummy = true, $canExpire = true)
     {
         $result = $this->createQueryBuilder('b')
             ->innerJoin('b.bookingType', 'bt')
@@ -32,6 +32,10 @@ class BookingRepository extends ServiceEntityRepository
 
         if (!$dummy) {
             $result->andWhere('bt.dummy = 0');
+        }
+
+        if (!$canExpire) {
+            $result->andWhere('bt.canExpire = 0');
         }
 
         return $result->setParameter('from', $from)
