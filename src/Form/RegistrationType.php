@@ -17,15 +17,15 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('email', TextType::class)
-        ->add('username', TextType::class)
-        ->add('plainPassword', RepeatedType::class, array(
-            'type' => PasswordType::class,
-            'invalid_message' => 'user.password.no_match',
-            'first_options'  => array('label' => 'Password'),
-            'second_options' => array('label' => 'Repeat Password')
-        ))
-        ->add('register', SubmitType::class)
+            ->add('email', EmailType::class)
+            ->add('username', TextType::class)
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'invalid_message' => 'user.password.no_match',
+                'first_options'  => array('label' => 'Password'),
+                'second_options' => array('label' => 'Repeat Password')
+            ))
+            ->add('register', SubmitType::class)
         ;
     }
 

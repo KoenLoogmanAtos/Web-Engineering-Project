@@ -6,7 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Guest;
-use App\Form\GuestType as GuestForm;
+use App\Form\GuestType;
 
 /**
  * @Route("/guest", name="guest")
@@ -14,14 +14,83 @@ use App\Form\GuestType as GuestForm;
 class GuestController extends Controller
 {
     /**
-     * @Route("", name="_index")
+     * @Route("/{id}", requirements={"id"="\d{1,10}"}, name="_view")
      */
-    public function index()
+    public function view($id)
     {
-        return $this->render('guest/index.html.twig', [
-            'controller_name' => 'GuestController',
+        $entity = $this->getDoctrine()->getRepository(Guest::class)->find($id);
+
+        return $this->render('guest/view.html.twig', [
+            'type' => 'guest',
+            'entity' => $entity,
         ]);
     }
+
+    /**
+     * @Route("/edit/{id}", requirements={"id"="\d{1,10}"}, name="_edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $entity = $this->getDoctrine()->getRepository(Guest::class)->find($id);
+
+        $form = $this->createForm(GuestType::class, $entity, array(
+            'method' => 'POST',
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entity = $form->getData();
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Successfully edited '.$entity
+                );
+
+                return $this->redirectToRoute('guest_view', ['id' => $id]);
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'danger',
+                    'guest.edit.failed'
+                );
+            }
+        }
+
+        return $this->render('guest/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="_delete")
+     */
+    public function delete($id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Guest::class)->find($id);
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($entity);
+            $em->flush();
+        
+            $this->addFlash(
+                'success',
+                'Successfully deleted '.$entity
+            );
+        } catch(\Exception $e) {
+            $this->addFlash(
+                'danger',
+                'guest.delete.failed'
+            );
+        }
+
+        return $this->redirectToRoute('guest_manage');
+    }
+
 
     /**
      * @Route("/manage", name="_manage")
@@ -30,7 +99,7 @@ class GuestController extends Controller
     {
         $guest = new Guest();
 
-        $form = $this->createForm(GuestForm::class, $guest, array(
+        $form = $this->createForm(GuestType::class, $guest, array(
             'method' => 'POST',
         ));
 

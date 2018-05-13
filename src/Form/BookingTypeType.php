@@ -15,10 +15,10 @@ class BookingTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('type', TextType::class)
-        ->add('canExpire', CheckboxType::class)
-        ->add('dummy', CheckboxType::class)
-        ->add('send', SubmitType::class)
+            ->add('type', TextType::class)
+            ->add('canExpire', CheckboxType::class)
+            ->add('dummy', CheckboxType::class)
+            ->add('send', SubmitType::class)
         ;
     }
 

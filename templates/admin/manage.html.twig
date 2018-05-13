@@ -39,7 +39,7 @@
                             {% endif %}
                         {% endfor %}
                         {# store data in tr for the form creation #}
-                        <tr{% for key, value in temp %} data-{{ key }}="{{ value }}"{% endfor %}>
+                        <tr data-display="{{ entity }}" {% for key, value in temp %} data-{{ key }}="{{ value }}"{% endfor %}>
                             {% for key, value in temp %}
                                 {% if key == primary %}
                                     <th scope="row" class="align-middle">{{ value }}</th>
@@ -50,7 +50,8 @@
                                 {% endif %}
                             {% endfor %}
                             <td class="text-right text-nowrap">
-                                <!-- button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Edit</button -->
+                                <a href="{{ path(type ~ '_view', {'id' : entity.id}) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                <a href="{{ path(type ~ '_edit', {'id' : entity.id}) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
                                 <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
                             </td>
                         </tr>
@@ -74,7 +75,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ path('api_' ~ type ~ '_delete', {'id' : 0}) }}" method="POST">
+                <form action="{{ path(type ~ '_delete', {'id' : 0}) }}" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="_method" value="DELETE">
                     <p>Do you really want to delete <span class="target">0</span>?</p>
@@ -92,33 +93,6 @@
 {% block javascripts %}
 <script>
     $(document).ready(function() {
-        $('#deleteModal form').submit(function(event) {
-            var form = $(this);
-
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function(data) {
-                    // remove entities from table
-                    if (data.removes) {
-                        $.each(data.removes, function(index, value) {
-                            $('.entities tr[data-id='+ value +']').remove();
-                        });
-                    }
-                    
-                    // no entities found display
-                    $('.no-entities').remove();
-                    if ($('.entities').html().replace(/\s/g, '') == '') {
-                        $('.entities').append('<tr class="no-entities"><td colspan="{{ (display | length) + 1 }}" class="text-center">No {{ type | replace({"_" : " "}) | title }} found.</td></tr>');
-                    }
-                }
-            });
-
-            $('#deleteModal').modal('hide');
-            return false;
-        });
-
         // delete modal
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -130,7 +104,7 @@
             var url = modal.find('form').attr('action');
             modal.find('form').attr('action', url.replace(/\d+$/, data.id));
 
-            modal.find('.target').html(data.type);
+            modal.find('.target').html(data.display);
         });
     });
 </script>

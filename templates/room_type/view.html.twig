@@ -1,0 +1,20 @@
+{% extends 'admin/view.html.twig' %}
+
+{% block tbody %}
+<tr>
+    <th>Type</th>
+    <td>{{ entity.type }}</td>
+</tr>
+<tr>
+    <th>Capacity</th>
+    <td>{{ entity.capacity }}</td>
+</tr>
+<tr>
+    <th>Created</th>
+    <td>{{ entity.created | date('Y-m-d H:i:s') }}</td>
+</tr>
+<tr>
+    <th>Updated</th>
+    <td>{{ entity.created | date('Y-m-d H:i:s') }}</td>
+</tr>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'admin/view.html.twig' %}
+
+{% block tbody %}
+<tr>
+    <th>Guest</th>
+    <td><a href="{{ path('guest_view', {'id' : entity.guest.id}) }}">{{ entity.guest }}</a></td>
+</tr>
+<tr>
+    <th>Booking Type</th>
+    <td><a href="{{ path('booking_type_view', {'id' : entity.bookingType.id}) }}">{{ entity.bookingType }}</a></td>
+</tr>
+<tr>
+    <th>Arrival</th>
+    <td>{{ entity.arrival | date('Y-m-d H:i:s') }}</td>
+</tr>
+<tr>
+    <th>Depature</th>
+    <td>{{ entity.depature | date('Y-m-d H:i:s') }}</td>
+</tr>
+<tr>
+    <th>Created</th>
+    <td>{{ entity.created | date('Y-m-d H:i:s') }}</td>
+</tr>
+<tr>
+    <th>Updated</th>
+    <td>{{ entity.updated | date('Y-m-d H:i:s') }}</td>
+</tr>
+{% endblock %}
