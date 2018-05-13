@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage {{ type | replace({'_' : ' '}) | title }}{% endblock %}
+
+{% block body %}
+    <div class="row mt-3">
+        <div class="col">
+            {% if form is defined %}
+                <div class="collapse {% if not form.vars.valid | length %}show {% endif %}mb-3" id="collapseExample">
+                    <div class="card card-body">
+                        {{ form(form) }}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <caption>List of {{ (type ~ "s") | replace({'_' : ' '}) | title }}</caption>
+                    <thead class="thead-dark">
+                        <tr>
+                            {% for key in display | keys %}
+                                <th scope="col" class="align-middle">{{ key | replace({'_' : ' '}) | title }}</th>
+                            {% endfor %}
+                            <th class="text-right">
+                                {% if form is defined %}
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample">Create</button>
+                                {% endif %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="entities">
+                    {% for entity in entities %}
+                        {# make a temporary array from the object #}
+                        {% set temp = {} %}
+                        {% for key, value in display %}
+                            {% if value == 'date' %}
+                                {% set temp = temp | merge({(key) : attribute(entity, key) | date('Y-m-d H:i:s')}) %}
+                            {% else %}
+                                {% set temp = temp | merge({(key) : attribute(entity, key) | e}) %}
+                            {% endif %}
+                        {% endfor %}
+                        {# store data in tr for the form creation #}
+                        <tr data-display="{{ entity }}" {% for key, value in temp %} data-{{ key }}="{{ value }}"{% endfor %}>
+                            {% for key, value in temp %}
+                                {% if key == primary %}
+                                    <th scope="row" class="align-middle">{{ value }}</th>
+                                {% elseif attribute(display, key) == "date" %}
+                                    <td class="align-middle text-nowrap">{{ value }}</td>
+                                {% else %}
+                                    <td class="align-middle">{{ value }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td class="text-right text-nowrap">
+                                <a href="{{ path(type ~ '_view', {'id' : entity.id}) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                <a href="{{ path(type ~ '_edit', {'id' : entity.id}) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr class="no-entities">
+                            <td colspan="{{ (display | length) + 1 }}" class="text-center">No {{ type | replace({'_' : ' '}) | title }} found.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete <span class="target">0</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ path(type ~ '_delete', {'id' : 0}) }}" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p>Do you really want to delete <span class="target">0</span>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+        // delete modal
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var data = button.parent().parent().data();
+
+            var modal = $(this);
+
+            // update id
+            var url = modal.find('form').attr('action');
+            modal.find('form').attr('action', url.replace(/\d+$/, data.id));
+
+            modal.find('.target').html(data.display);
+        });
+    });
+</script>
+{% endblock %}

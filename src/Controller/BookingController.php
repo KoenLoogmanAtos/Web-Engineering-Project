@@ -5,23 +5,23 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\RoomType;
-use App\Form\RoomTypeType;
+use App\Entity\Booking;
+use App\Form\BookingType;
 
 /**
- * @Route("/room/type", name="room_type")
+ * @Route("/booking", name="booking")
  */
-class RoomTypeController extends Controller
+class BookingController extends Controller
 {
     /**
      * @Route("/{id}", requirements={"id"="\d{1,10}"}, name="_view")
      */
     public function view($id)
     {
-        $entity = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Booking::class)->find($id);
 
-        return $this->render('room_type/view.html.twig', [
-            'type' => 'room_type',
+        return $this->render('booking/view.html.twig', [
+            'type' => 'booking',
             'entity' => $entity,
         ]);
     }
@@ -31,9 +31,9 @@ class RoomTypeController extends Controller
      */
     public function edit($id, Request $request)
     {
-        $entity = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Booking::class)->find($id);
 
-        $form = $this->createForm(RoomTypeType::class, $entity, array(
+        $form = $this->createForm(BookingType::class, $entity, array(
             'method' => 'POST',
         ));
 
@@ -51,16 +51,16 @@ class RoomTypeController extends Controller
                     'Successfully edited '.$entity
                 );
 
-                return $this->redirectToRoute('room_type_view', ['id' => $id]);
+                return $this->redirectToRoute('booking_view', ['id' => $id]);
             } catch (\Exception $e) {
                 $this->addFlash(
                     'danger',
-                    'room_type.edit.failed'
+                    'booking.edit.failed'
                 );
             }
         }
 
-        return $this->render('room_type/edit.html.twig', [
+        return $this->render('booking/edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -70,7 +70,7 @@ class RoomTypeController extends Controller
      */
     public function delete($id)
     {
-        $entity = $this->getDoctrine()->getRepository(RoomType::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Booking::class)->find($id);
         
         try {
             $em = $this->getDoctrine()->getManager();
@@ -84,11 +84,11 @@ class RoomTypeController extends Controller
         } catch(\Exception $e) {
             $this->addFlash(
                 'danger',
-                'room_type.delete.failed'
+                'booking.delete.failed'
             );
         }
 
-        return $this->redirectToRoute('room_type_manage');
+        return $this->redirectToRoute('booking_manage');
     }
 
     /**
@@ -96,48 +96,49 @@ class RoomTypeController extends Controller
      */
     public function manage(Request $request)
     {
-        $roomType = new RoomType();
+        $booking = new Booking();
 
-        $form = $this->createForm(RoomTypeType::class, $roomType, array(
+        $form = $this->createForm(BookingType::class, $booking, array(
             'method' => 'POST',
         ));
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomType = $form->getData();
-
+            $booking = $form->getData();
+    
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($roomType);
+                $em->persist($booking);
                 $em->flush();
 
                 $this->addFlash(
                     'success',
-                    'Successfully created '.$roomType->getType()
+                    'booking.create.successful'
                 );
 
-                return $this->redirectToRoute('room_type_manage');
+                return $this->redirectToRoute('booking_manage');
             } catch (\Exception $e) {
                 $this->addFlash(
                     'danger',
-                    'room_type.create.failed'
+                    'booking.create.failed'
                 );
             }
         }
 
-        $roomTypes = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
+        $bookings = $this->getDoctrine()->getRepository(Booking::class)->findAll();
 
         return $this->render('admin/manage.html.twig', [
-            'type' => 'room_type',
+            'type' => 'booking',
             'primary' => 'id',
-            'entities' => $roomTypes,
+            'entities' => $bookings,
             'form' => $form->createView(),
             'display' => [
                 'id' => 'primary',
-                'type' => 'text',
-                'capacity' => 'text',
-                'created' => 'date',
-                'updated' => 'date'
+                'bookingType' => 'text',
+                'guest' => 'text',
+                'arrival' => 'date',
+                'depature' => 'date',
+                'nights' => 'text'
             ]
         ]);
     }

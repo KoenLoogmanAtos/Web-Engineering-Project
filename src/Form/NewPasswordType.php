@@ -15,14 +15,14 @@ class NewPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('oldPassword', PasswordType::class)
-        ->add('plainPassword', RepeatedType::class, array(
-            'type' => PasswordType::class,
-            'invalid_message' => 'user.password.no_match',
-            'first_options'  => array('label' => 'Password'),
-            'second_options' => array('label' => 'Repeat Password')
-        ))
-        ->add('change', SubmitType::class)
+            ->add('oldPassword', PasswordType::class)
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'invalid_message' => 'user.password.no_match',
+                'first_options'  => array('label' => 'Password'),
+                'second_options' => array('label' => 'Repeat Password')
+            ))
+            ->add('change', SubmitType::class)
         ;
     }
 

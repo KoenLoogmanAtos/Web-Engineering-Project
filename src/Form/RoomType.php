@@ -18,14 +18,13 @@ class RoomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('roomType', EntityType::class, array(
-            'class' => RType::class,
-            'choice_label' => 'type'
-        ))
-        ->add('name', TextType::class)
-        ->add('validFrom', DateType::class)
-        ->add('validTo', DateType::class)
-        ->add('submit', SubmitType::class)
+            ->add('roomType', EntityType::class, array(
+                'class' => RType::class
+            ))
+            ->add('name', TextType::class)
+            ->add('validFrom', DateType::class)
+            ->add('validTo', DateType::class)
+            ->add('submit', SubmitType::class)
         ;
     }
 

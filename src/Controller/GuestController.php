@@ -5,35 +5,23 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserInterface;
-use App\Entity\User;
-use App\Form\UserType;
+use App\Entity\Guest;
+use App\Form\GuestType;
 
 /**
- * @Route("/user", name="user")
+ * @Route("/guest", name="guest")
  */
-class UserController extends Controller
+class GuestController extends Controller
 {
-    /**
-     * @Route("", name="_index")
-     */
-    public function index(UserInterface $user)
-    {
-        return $this->render('user/view.html.twig', [
-            'type' => 'user',
-            'entity' => $user,
-        ]);
-    }
-
     /**
      * @Route("/{id}", requirements={"id"="\d{1,10}"}, name="_view")
      */
     public function view($id)
     {
-        $entity = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Guest::class)->find($id);
 
-        return $this->render('user/view.html.twig', [
-            'type' => 'user',
+        return $this->render('guest/view.html.twig', [
+            'type' => 'guest',
             'entity' => $entity,
         ]);
     }
@@ -43,9 +31,9 @@ class UserController extends Controller
      */
     public function edit($id, Request $request)
     {
-        $entity = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Guest::class)->find($id);
 
-        $form = $this->createForm(UserType::class, $entity, array(
+        $form = $this->createForm(GuestType::class, $entity, array(
             'method' => 'POST',
         ));
 
@@ -63,16 +51,16 @@ class UserController extends Controller
                     'Successfully edited '.$entity
                 );
 
-                return $this->redirectToRoute('user_view', ['id' => $id]);
+                return $this->redirectToRoute('guest_view', ['id' => $id]);
             } catch (\Exception $e) {
                 $this->addFlash(
                     'danger',
-                    'user.edit.failed'
+                    'guest.edit.failed'
                 );
             }
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('guest/edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -80,19 +68,15 @@ class UserController extends Controller
     /**
      * @Route("/delete/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="_delete")
      */
-    public function delete($id, UserInterface $user)
+    public function delete($id)
     {
-        $entity = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $entity = $this->getDoctrine()->getRepository(Guest::class)->find($id);
         
         try {
-            if ($user->getId() == $id) {
-                throw new \Exception('user.delete.self');
-            }
-
             $em = $this->getDoctrine()->getManager();
             $em->remove($entity);
             $em->flush();
-
+        
             $this->addFlash(
                 'success',
                 'Successfully deleted '.$entity
@@ -100,27 +84,59 @@ class UserController extends Controller
         } catch(\Exception $e) {
             $this->addFlash(
                 'danger',
-                'user.delete.failed'
+                'guest.delete.failed'
             );
         }
 
-        return $this->redirectToRoute('user_manage');
+        return $this->redirectToRoute('guest_manage');
     }
+
 
     /**
      * @Route("/manage", name="_manage")
      */
-    public function manage()
+    public function manage(Request $request)
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $guest = new Guest();
+
+        $form = $this->createForm(GuestType::class, $guest, array(
+            'method' => 'POST',
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $guest = $form->getData();
+            
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($guest);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Successfully created '.$guest->getDisplay()
+                );
+                
+                return $this->redirectToRoute('guest_manage');
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'danger',
+                    'guest.create.failed'
+                );
+            }
+        }
+
+        $guests = $this->getDoctrine()->getRepository(Guest::class)->findAll();
 
         return $this->render('admin/manage.html.twig', [
-            'type' => 'user',
+            'type' => 'guest',
             'primary' => 'id',
-            'entities' => $users,
+            'entities' => $guests,
+            'form' => $form->createView(),
             'display' => [
                 'id' => 'primary',
-                'username' => 'text',
+                'firstname' => 'text',
+                'lastname' => 'text',
                 'email' => 'text',
                 'created' => 'date',
                 'updated' => 'date'
