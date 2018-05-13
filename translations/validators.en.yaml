@@ -1,0 +1,15 @@
+integer:
+    invalid: '{{ value }} is not a number'
+email:
+    invalid: 'The email {{ value }} is not a valid email'
+room_type:
+    type:
+        not_unique: 'The type {{ value }} already exists'
+user:
+    username:
+        not_unique: 'The user {{ value }} already exists'
+    email:
+        not_unique: 'The email {{ value }} is already in use'
+    password:
+        wrong_old: 'Wrong value for your current password'
+        no_match: 'Passwords do not match'

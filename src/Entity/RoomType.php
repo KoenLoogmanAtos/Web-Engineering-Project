@@ -6,9 +6,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoomTypeRepository")
+ * @UniqueEntity(fields={"type"}, message="room_type.type.not_unique")
  */
 class RoomType
 {
@@ -20,18 +22,19 @@ class RoomType
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", length=32, unique=true)
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @Assert\Length(max=32)
      */
-    
     private $type;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
      * @Assert\Type(
      *     type="integer",
-     *     message="Value of capacity has to be a number"
+     *     message="integer.invalid"
      * )
      */
     private $capacity;

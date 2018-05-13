@@ -129,7 +129,7 @@ class AppFixtures extends Fixture
             $bookings[$i]->setDepature($depature);
             
             // add rooms
-            $roomIds = array_rand($rooms, mt_rand(1, count($rooms) / 2));
+            $roomIds = array_rand($rooms, mt_rand(1, count($rooms) / 4));
             if (is_array($roomIds)) {
                 foreach ($roomIds as $id) {
                     $bookings[$i]->getRooms()->add($rooms[$id]);

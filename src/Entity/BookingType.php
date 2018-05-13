@@ -6,9 +6,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingTypeRepository")
+ * @UniqueEntity(fields={"type"}, message="booking_type.type.not_unique")
  */
 class BookingType
 {

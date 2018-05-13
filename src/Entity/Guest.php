@@ -23,6 +23,7 @@ class Guest
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @Assert\Length(max=64)
      */
     private $firstname;
 
@@ -30,6 +31,7 @@ class Guest
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @Assert\Length(max=64)
      */
     private $lastname;
 
@@ -37,11 +39,11 @@ class Guest
      * @ORM\Column(type="string", length=128)
      * @Assert\NotBlank()
      * @Assert\Type("string")
-     *
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true
      * )
+     * @Assert\Length(max=128)
      */
     private $email;
 
@@ -49,6 +51,7 @@ class Guest
      * @ORM\Column(type="string", length=32)
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @Assert\Length(max=32)
      */
     private $phone;
 
@@ -124,6 +127,10 @@ class Guest
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    public function getDisplay() {
+        return $this->firstname." ".$this->lastname." (".$this->email.")";
     }
 
     /**
