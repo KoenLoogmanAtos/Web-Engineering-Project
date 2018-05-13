@@ -113,7 +113,7 @@ class BookingTypeController extends Controller
 
                 $this->addFlash(
                     'success',
-                    'Successfully created '.$bookingType->getType()
+                    'Successfully created '.$bookingType
                 );
 
                 return $this->redirectToRoute('booking_type_manage');

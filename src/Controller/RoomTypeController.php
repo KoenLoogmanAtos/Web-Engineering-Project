@@ -113,7 +113,7 @@ class RoomTypeController extends Controller
 
                 $this->addFlash(
                     'success',
-                    'Successfully created '.$roomType->getType()
+                    'Successfully created '.$roomType
                 );
 
                 return $this->redirectToRoute('room_type_manage');

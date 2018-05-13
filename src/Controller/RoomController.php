@@ -114,7 +114,7 @@ class RoomController extends Controller
 
                 $this->addFlash(
                     'success',
-                    'Successfully created '.$room->getName()
+                    'Successfully created '.$room
                 );
                     
                 return $this->redirectToRoute('room_manage');

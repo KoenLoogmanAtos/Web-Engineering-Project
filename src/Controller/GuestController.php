@@ -114,7 +114,7 @@ class GuestController extends Controller
 
                 $this->addFlash(
                     'success',
-                    'Successfully created '.$guest->getDisplay()
+                    'Successfully created '.$guest
                 );
                 
                 return $this->redirectToRoute('guest_manage');
