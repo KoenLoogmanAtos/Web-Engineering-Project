@@ -15,9 +15,9 @@ class RoomTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('type', TextType::class)
-        ->add('capacity', IntegerType::class)
-        ->add('submit', SubmitType::class)
+            ->add('type', TextType::class)
+            ->add('capacity', IntegerType::class)
+            ->add('submit', SubmitType::class)
         ;
     }
 

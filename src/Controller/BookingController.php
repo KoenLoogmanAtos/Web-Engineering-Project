@@ -6,7 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Booking;
-use App\Form\BookingType as BookingForm;
+use App\Form\BookingType;
 
 /**
  * @Route("/booking", name="booking")
@@ -14,13 +14,81 @@ use App\Form\BookingType as BookingForm;
 class BookingController extends Controller
 {
     /**
-     * @Route("", name="_index")
+     * @Route("/{id}", requirements={"id"="\d{1,10}"}, name="_view")
      */
-    public function index()
+    public function view($id)
     {
-        return $this->render('booking/index.html.twig', [
-            'controller_name' => 'BookingController',
+        $entity = $this->getDoctrine()->getRepository(Booking::class)->find($id);
+
+        return $this->render('booking/view.html.twig', [
+            'type' => 'booking',
+            'entity' => $entity,
         ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", requirements={"id"="\d{1,10}"}, name="_edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $entity = $this->getDoctrine()->getRepository(Booking::class)->find($id);
+
+        $form = $this->createForm(BookingType::class, $entity, array(
+            'method' => 'POST',
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entity = $form->getData();
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Successfully edited '.$entity
+                );
+
+                return $this->redirectToRoute('booking_view', ['id' => $id]);
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'danger',
+                    'booking.edit.failed'
+                );
+            }
+        }
+
+        return $this->render('booking/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="_delete")
+     */
+    public function delete($id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Booking::class)->find($id);
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($entity);
+            $em->flush();
+        
+            $this->addFlash(
+                'success',
+                'Successfully deleted '.$entity
+            );
+        } catch(\Exception $e) {
+            $this->addFlash(
+                'danger',
+                'booking.delete.failed'
+            );
+        }
+
+        return $this->redirectToRoute('booking_manage');
     }
 
     /**
@@ -30,7 +98,7 @@ class BookingController extends Controller
     {
         $booking = new Booking();
 
-        $form = $this->createForm(BookingForm::class, $booking, array(
+        $form = $this->createForm(BookingType::class, $booking, array(
             'method' => 'POST',
         ));
 

@@ -14,14 +14,83 @@ use App\Form\RoomType;
 class RoomController extends Controller
 {
     /**
-     * @Route("", name="_index")
+     * @Route("/{id}", requirements={"id"="\d{1,10}"}, name="_view")
      */
-    public function index()
+    public function view($id)
     {
-        return $this->render('room/index.html.twig', [
-            'controller_name' => 'RoomController',
+        $entity = $this->getDoctrine()->getRepository(Room::class)->find($id);
+
+        return $this->render('room/view.html.twig', [
+            'type' => 'room',
+            'entity' => $entity,
         ]);
     }
+
+    /**
+     * @Route("/edit/{id}", requirements={"id"="\d{1,10}"}, name="_edit")
+     */
+    public function edit($id, Request $request)
+    {
+        $entity = $this->getDoctrine()->getRepository(Room::class)->find($id);
+
+        $form = $this->createForm(RoomType::class, $entity, array(
+            'method' => 'POST',
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entity = $form->getData();
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Successfully edited '.$entity
+                );
+
+                return $this->redirectToRoute('room_view', ['id' => $id]);
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'danger',
+                    'room.edit.failed'
+                );
+            }
+        }
+
+        return $this->render('room/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", methods={"DELETE"}, requirements={"id"="\d{1,10}"}, name="_delete")
+     */
+    public function delete($id)
+    {
+        $entity = $this->getDoctrine()->getRepository(Room::class)->find($id);
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($entity);
+            $em->flush();
+        
+            $this->addFlash(
+                'success',
+                'Successfully deleted '.$entity
+            );
+        } catch(\Exception $e) {
+            $this->addFlash(
+                'danger',
+                'room.delete.failed'
+            );
+        }
+
+        return $this->redirectToRoute('room_manage');
+    }
+
 
     /**
      * @Route("/manage", name="_manage")

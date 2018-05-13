@@ -17,16 +17,16 @@ class BookingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('guest', EntityType::class, array(
-            'class' => Guest::class
-        ))
-        ->add('bookingType', EntityType::class, array(
-            'class' => Type::class
-        ))
-        ->add('arrival', DateType::class)
-        ->add('depature', DateType::class)
-        ->add('expirationDate', DateType::class)
-        ->add('send', SubmitType::class)
+            ->add('guest', EntityType::class, array(
+                'class' => Guest::class
+            ))
+            ->add('bookingType', EntityType::class, array(
+                'class' => Type::class
+            ))
+            ->add('arrival', DateType::class)
+            ->add('depature', DateType::class)
+            ->add('expirationDate', DateType::class)
+            ->add('send', SubmitType::class)
         ;
     }
 
