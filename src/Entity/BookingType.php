@@ -156,4 +156,8 @@ class BookingType
     {
         return $this->updated;
     }
+    
+    public function __toString() {
+        return "{$this->getType()}";
+    }
 }

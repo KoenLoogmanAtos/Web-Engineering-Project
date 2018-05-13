@@ -90,13 +90,14 @@ class SecurityController extends Controller
                     'success',
                     'password.change.successful'
                 );
+                
+                return $this->redirectToRoute('user_password');
             } catch (\Exception $e) {
                 $this->addFlash(
                     'danger',
                     'password.change.failed'
                 );
             }
-            return $this->redirectToRoute('user_password');
         }
 
         return $this->render('security/password.html.twig', [

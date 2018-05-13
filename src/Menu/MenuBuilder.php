@@ -50,11 +50,12 @@ class MenuBuilder
         // menu items for the admin
         if ($this->authChecker->isGranted('ROLE_ADMIN')) {
             $menu->addChild('Manage');
-            $menu->addChild('Room Types', array('route' => 'admin_room_type'));
-            $menu->addChild('Rooms', array('route' => 'admin_room'));
-            $menu->addChild('Bookings', array('route' => 'admin_booking'));
-            $menu->addChild('Booking Types', array('route' => 'admin_booking_type'));
-            $menu->addChild('Guests', array('route' => 'admin_guest'));
+            $menu->addChild('Room Types', array('route' => 'room_type_manage'));
+            $menu->addChild('Rooms', array('route' => 'room_manage'));
+            $menu->addChild('Bookings', array('route' => 'booking_manage'));
+            $menu->addChild('Booking Types', array('route' => 'booking_type_manage'));
+            $menu->addChild('Guests', array('route' => 'guest_manage'));
+            $menu->addChild('Users', array('route' => 'user_manage'));
 
             $menu->addChild('New User', array('route' => 'registration'));
         }
