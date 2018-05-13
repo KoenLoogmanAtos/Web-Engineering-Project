@@ -58,7 +58,7 @@ class AdminController extends Controller
 
             $this->addFlash(
                 'success',
-                'Successfully created '.$room->getName()
+                'room.create.successful'
             );
             return $this->redirectToRoute('admin_room');
         }
@@ -92,7 +92,7 @@ class AdminController extends Controller
 
             $this->addFlash(
                 'success',
-                'room_type.create.successful '.$roomType->getType()
+                'room_type.create.successful'
             );
             return $this->redirectToRoute('admin_room_type');
         }

@@ -25,6 +25,7 @@ class BookingType
      * @ORM\Column(type="string", length=32)
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @Assert\Length(max=32)
      */
     private $type;
 
