@@ -1,0 +1,30 @@
+user:
+    delete:
+        failed: 'Can not delete this user'
+    edit:
+        failed: 'Could not edit this user'
+room_type:
+    delete:
+        failed: 'Can not delete this room type - Might be used for some rooms'
+    edit:
+        failed: 'Could not edit this room type'
+room:
+    delete:
+        failed: 'Can not delete this room - Might be used for some bookings'
+    edit:
+        failed: 'Could not edit this room'
+booking:
+    delete:
+        failed: 'Can not delete this booking - Might be connected to some rooms'
+    edit:
+        failed: 'Could not edit this booking'
+booking_type:
+    delete:
+        failed: 'Can not delete this booking type - Might be used for some bookings'
+    edit:
+        failed: 'Could not edit this booking type'
+guest:
+    delete:
+        failed: 'Can not delete this guest - Might be used for some bookings'
+    edit:
+        failed: 'Could not edit this guest'
