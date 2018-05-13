@@ -5,20 +5,22 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\RoomType;
-use App\Form\RoomTypeType;
+use App\Entity\Room;
+use App\Form\RoomType;
 
 /**
- * @Route("/room/type", name="room_type")
+ * @Route("/room", name="room")
  */
-class RoomTypeController extends Controller
+class RoomController extends Controller
 {
     /**
      * @Route("", name="_index")
      */
     public function index()
     {
-        return new Response("test");
+        return $this->render('room/index.html.twig', [
+            'controller_name' => 'RoomController',
+        ]);
     }
 
     /**
@@ -26,46 +28,45 @@ class RoomTypeController extends Controller
      */
     public function manage(Request $request)
     {
-        $roomType = new RoomType();
+        $room = new Room();
 
-        $form = $this->createForm(RoomTypeType::class, $roomType, array(
+        $form = $this->createForm(RoomType::class, $room, array(
             'method' => 'POST',
         ));
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomType = $form->getData();
-
+            $room = $form->getData();
+            
             try {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($roomType);
+                $em->persist($room);
                 $em->flush();
 
                 $this->addFlash(
                     'success',
-                    'Successfully created '.$roomType->getType()
+                    'Successfully created '.$room->getName()
                 );
-
-                return $this->redirectToRoute('room_type_manage');
+                    
+                return $this->redirectToRoute('room_manage');
             } catch (\Exception $e) {
                 $this->addFlash(
                     'danger',
-                    'room_type.create.failed'
+                    'room.create.failed'
                 );
             }
         }
 
-        $roomTypes = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
-
+        $rooms = $this->getDoctrine()->getRepository(Room::class)->findAll();
+        
         return $this->render('admin/manage.html.twig', [
-            'type' => 'room_type',
+            'type' => 'room',
             'primary' => 'id',
-            'entities' => $roomTypes,
+            'entities' => $rooms,
             'form' => $form->createView(),
             'display' => [
                 'id' => 'primary',
-                'type' => 'text',
-                'capacity' => 'text',
+                'name' => 'text',
                 'created' => 'date',
                 'updated' => 'date'
             ]

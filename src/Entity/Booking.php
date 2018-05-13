@@ -259,4 +259,8 @@ class Booking
     {
         return $this->updated;
     }
+    
+    public function __toString() {
+        return "{$this->getBookingType()}";
+    }
 }

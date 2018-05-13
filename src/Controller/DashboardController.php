@@ -26,4 +26,22 @@ class DashboardController extends Controller
             'bookings' => $bookings,
         ]);
     }
+
+    /**
+     * @Route("rooms", name="rooms")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function rooms()
+    {
+        $from = new \DateTime();
+        $to = new \DateTime();
+        $to->add(new \DateInterval('P3D'));
+
+        $em = $this->getDoctrine()->getManager();
+        $bookings = $em->getRepository(Booking::class)->findByDateRange($from, $to);
+
+        return $this->render('dashboard/index.html.twig', [
+            'bookings' => $bookings,
+        ]);
+    }
 }
