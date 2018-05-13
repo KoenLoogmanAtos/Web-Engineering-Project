@@ -11,13 +11,13 @@ class DashboardController extends Controller
 {
     /**
      * @Route("", name="index")
-     * Security("has_role('ROLE_USER')")
+     * @Security("has_role('ROLE_USER')")
      */
     public function index()
     {
         $from = new \DateTime();
         $to = new \DateTime();
-        $to->add(new \DateInterval('P3M'));
+        $to->add(new \DateInterval('P3D'));
 
         $em = $this->getDoctrine()->getManager();
         $bookings = $em->getRepository(Booking::class)->findByDateRange($from, $to);

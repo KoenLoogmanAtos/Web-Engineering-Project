@@ -1,4 +1,3 @@
-{# @Author Koen Loogman #}
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,8 +41,14 @@
         </div>
         <div class="container mt-3">
             <div class="row">
-                {{ knp_menu_render('side') }}
+            {% if app.user %}
+                <div class="col-md-3">
+                    {{ knp_menu_render('side') }}
+                </div>
+                <div class="col-md-9">
+            {% else %}
                 <div class="col">
+            {% endif %}
                     {% block body %}{% endblock %}
                 </div>
             </div>

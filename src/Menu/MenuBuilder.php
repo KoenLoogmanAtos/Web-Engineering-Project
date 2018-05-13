@@ -53,6 +53,8 @@ class MenuBuilder
             $menu->addChild('Room Types', array('route' => 'admin_room_type'));
             $menu->addChild('Rooms', array('route' => 'admin_room'));
             $menu->addChild('Bookings', array('route' => 'admin_booking'));
+
+            $menu->addChild('New User', array('route' => 'registration'));
         }
 
         // menu items for the user

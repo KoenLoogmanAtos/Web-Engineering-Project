@@ -123,7 +123,7 @@ class AdminController extends Controller
 
             $this->addFlash(
                 'success',
-                'room_type.create.successful'
+                'booking.create.successful'
             );
             return $this->redirectToRoute('admin_booking');
         }

@@ -35,7 +35,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
     access_control:
-        - { path: ^/(login)?$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/?$, roles: ROLE_USER}
         # require ROLE_ADMIN for /admin*
         - { path: ^/(register|admin)?$, roles: ROLE_ADMIN }
