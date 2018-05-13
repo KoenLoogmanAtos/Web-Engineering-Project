@@ -26,7 +26,6 @@ class MenuBuilder
         $menu->setChildrenAttribute('class', 'navbar-nav mr-auto mt-2 mt-md-0');
 
         if ($this->authChecker->isGranted('ROLE_ADMIN')) {
-            $menu->addChild('Admin', array('route' => 'admin_index'));
         }
 
         if ($this->authChecker->isGranted('ROLE_USER')) {
