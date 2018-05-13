@@ -48,7 +48,7 @@ class User implements UserInterface, \Serializable
     /**
     * @Assert\NotBlank(groups={"new_password", "registration"})
     * @Assert\Type("string", groups={"new_password", "registration"})
-    * @Assert\Length(min=8, max=64, groups={"new_password", "registration"})
+    * @Assert\Length(min=4, max=64, groups={"new_password", "registration"})
     */
     private $plainPassword;
 
@@ -295,5 +295,9 @@ class User implements UserInterface, \Serializable
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
+    }
+    
+    public function __toString() {
+        return "{$this->getUsername()}";
     }
 }

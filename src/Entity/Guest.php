@@ -129,10 +129,6 @@ class Guest
         return $this;
     }
 
-    public function getDisplay() {
-        return $this->firstname." ".$this->lastname." (".$this->email.")";
-    }
-
     /**
      * Get the value of email
      */ 

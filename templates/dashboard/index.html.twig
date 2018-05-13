@@ -3,9 +3,10 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
+<h1>Bookings of the next days</h1>
 {% for booking in bookings %}
     {% if loop.index0 % 2 == 0  %}
-        <div class="row">
+        <div class="row mt-3">
     {% endif %}
     <div class="col-lg">
         <div class="card">
@@ -16,6 +17,15 @@
                     Arrival: {{ booking.arrival | date('Y-m-d') }}<br>
                     Depature: {{ booking.depature | date('Y-m-d') }}
                 </p>
+                {% if booking.arrivalInDays > 0 and booking.arrivalInDays <= 31 %}
+                    <p>
+                        Arrives in {{ booking.arrivalInDays }} day(s)
+                    </p>
+                {% elseif booking.arrivalInDays < 0 and booking.depatureInDays > 0 %}
+                    <p>
+                        Departs in {{ booking.depatureInDays }} day(s)
+                    </p>
+                {% endif %}
             </div>
             {% if booking.rooms is iterable %}
             <ul class="list-group list-group-flush">

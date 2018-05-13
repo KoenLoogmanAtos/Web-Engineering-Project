@@ -18,12 +18,10 @@ class BookingType extends AbstractType
     {
         $builder
         ->add('guest', EntityType::class, array(
-            'class' => Guest::class,
-            'choice_label' => 'display'
+            'class' => Guest::class
         ))
         ->add('bookingType', EntityType::class, array(
-            'class' => Type::class,
-            'choice_label' => 'type'
+            'class' => Type::class
         ))
         ->add('arrival', DateType::class)
         ->add('depature', DateType::class)
