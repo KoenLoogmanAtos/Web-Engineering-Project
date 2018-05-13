@@ -26,3 +26,12 @@
     <td>{{ entity.updated | date('Y-m-d H:i:s') }}</td>
 </tr>
 {% endblock %}
+
+{% block info %}
+<h4>Rooms</h4>
+<ul class="list-group">
+    {% for room in entity.rooms %}
+        <li class="list-group-item"><a href="{{ path('room_view', {'id' : room.id}) }}">{{ room }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
