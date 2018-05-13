@@ -137,7 +137,6 @@ class BookingTypeController extends Controller
                 'type' => 'text',
                 'dummy' => 'text',
                 'canExpire' => 'text',
-                'created' => 'date',
                 'updated' => 'date'
             ]
         ]);

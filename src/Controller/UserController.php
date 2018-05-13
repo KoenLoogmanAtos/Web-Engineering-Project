@@ -122,8 +122,7 @@ class UserController extends Controller
                 'id' => 'primary',
                 'username' => 'text',
                 'email' => 'text',
-                'created' => 'date',
-                'updated' => 'date'
+                'created' => 'date'
             ]
         ]);
     }

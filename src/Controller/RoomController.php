@@ -136,7 +136,6 @@ class RoomController extends Controller
             'display' => [
                 'id' => 'primary',
                 'name' => 'text',
-                'created' => 'date',
                 'updated' => 'date'
             ]
         ]);

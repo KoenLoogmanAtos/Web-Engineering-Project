@@ -89,7 +89,7 @@ class AppFixtures extends Fixture
         // guests
         $guests = array();
         $firstnames = array('Max', 'Helga', 'Dora', 'Helmut', 'Karl', 'Tom', 'Aleyna', 'Klaus', 'Simon', 'Lena', 'Herald', 'Tim', 'Rebecca', 'Hanna', 'Marie', 'Paul');
-        $lastnames = array('Fischer', 'Mustermann', 'Kader', 'Kruse', 'Stroetmann', 'Schmidt', 'Regenberg', 'Pohl', 'Gartner', 'Kohl', 'Schönfeld', 'Eiermann', 'Neubauer', 'Zillmer');
+        $lastnames = array('Fischer', 'Mustermann', 'Kader', 'Kruse', 'Stroetmann', 'Schmidt', 'Regenberg', 'Pohl', 'Gartner', 'Kohl', 'Schoenfeld', 'Eiermann', 'Neubauer', 'Zillmer');
         for ($i = 0; $i < 20; $i++) {
             $fn = $firstnames[mt_rand(0, count($firstnames) - 1)];
             $ln = $lastnames[mt_rand(0, count($lastnames) - 1)];

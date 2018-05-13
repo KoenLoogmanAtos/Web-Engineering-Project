@@ -138,7 +138,6 @@ class GuestController extends Controller
                 'firstname' => 'text',
                 'lastname' => 'text',
                 'email' => 'text',
-                'created' => 'date',
                 'updated' => 'date'
             ]
         ]);
