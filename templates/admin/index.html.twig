@@ -3,9 +3,6 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-<div class="row">
-    {{ knp_menu_render('admin') }}
-    <div class="col">
         {% block display %}
             <h1 class="h3">Hello {{ app.user.username }}!</h1>
             
@@ -43,6 +40,4 @@
                 </tbody>
             </table>
         {% endblock %}
-    </div>
-</div>
 {% endblock %}
